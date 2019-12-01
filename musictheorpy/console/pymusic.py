@@ -24,18 +24,19 @@ def main():
     subs = parser.add_subparsers()
 
     intervals_parser = subs.add_parser('intervals')
-    intervals_parser.set_defaults(func=intervals_parser)
+    intervals_parser.set_defaults(func=intervals)
     scales_parser = subs.add_parser('scales')
-    scales_parser.set_defaults(func=scales_parser)
+    scales_parser.set_defaults(func=scales)
 
     intervals_parser.add_argument('starting_note')
     intervals_parser.add_argument('interval')
     intervals_parser.add_argument('-d', '--descend', action='store_true')
 
     scales_parser.add_argument('tonic')
-    scales_parser.add_argument('--minor', choices=['natural', 'melodic', 'harmonic'], default='natural')
+    scales_parser.add_argument('-m', '--minor', choices=['harmonic', 'melodic', 'natural'])
 
     args = parser.parse_args()
+    args.func(args)
 
 
 def intervals(args):
@@ -45,6 +46,8 @@ def intervals(args):
 
 def scales(args):
     print(args.tonic)
+    if args.minor:
+        print(args.minor)
 
 
 # def oldintervals():
