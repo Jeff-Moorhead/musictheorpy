@@ -13,12 +13,17 @@ INTERVAL_MAP = {'P0': 'PERFECT 0', 'd2': 'DIMINISHED 2', 'm2': 'MINOR 2', 'A0': 
                 }
 
 
-class PyMusicArgumentParser:
+class IntervalParser:
     def __init__(self):
         usage = "intervals: [-d, --descend] starting_note interval"
         self._parser = argparse.ArgumentParser(usage=usage)
         self._add_args()
         self._args = self._parse()
+
+
+class PyMusicArgumentParser:
+    def __init__(self):
+        pass
 
     def _add_args(self):
         note_usage = "The starting note for the interval. Valid notes are uppercase English letters A through G " \
