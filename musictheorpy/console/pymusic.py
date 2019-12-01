@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 import sys
+import argparse
+
 import musictheorpy.notes as notes
-from musictheorpy.console import parser
+# from musictheorpy.console import parser
 
 invalid_note_help = "You have entered an invalid note name. Valid notes are uppercase English letters A through G\n"\
                     "possibly followed by a qualifier. Valid qualifiers are #, ##, b, and bb. No qualifier represents\n"\
@@ -18,36 +20,64 @@ invalid_interval_help = "You have entered an invalid interval.\n" \
 
 
 def main():
-    argparser = parser.PyMusicArgumentParser()
-    tmpnote, interval, descend = unpack_arguments(argparser)
+    parser = argparse.ArgumentParser()
+    subs = parser.add_subparsers()
 
-    note = validate_note(tmpnote)
-    if note is None:
-        print(invalid_note_help)
-        sys.exit()
+    intervals_parser = subs.add_parser('intervals')
+    intervals_parser.set_defaults(func=intervals_parser)
+    scales_parser = subs.add_parser('scales')
+    scales_parser.set_defaults(func=scales_parser)
 
-    if interval is None:
-        print(invalid_interval_help)
-        sys.exit()
+    intervals_parser.add_argument('starting_note')
+    intervals_parser.add_argument('interval')
+    intervals_parser.add_argument('-d', '--descend', action='store_true')
 
-    article = "An" if interval.startswith('AUGMENTED') else "A"
+    scales_parser.add_argument('tonic')
+    scales_parser.add_argument('--minor', choices=['natural', 'melodic', 'harmonic'], default='natural')
 
-    if descend:
-        try:
-            bottom_note = note.descend_interval(interval)
-            print("%s %s descending from %s is %s.\n" % (article, interval.lower(), note, bottom_note))
-        except notes.InvalidIntervalError:
-            print("%s %s descending from %s results in an invalid note.\n" % (article, interval.lower(), note))
-        finally:
-            sys.exit()
-    else:
-        try:
-            top_note = note.ascend_interval(interval)
-            print("%s %s ascending from %s is %s.\n" % (article, interval.lower(), note, top_note))
-        except notes.InvalidIntervalError:
-            print("%s %s ascending from %s results in an invalid notes.\n" % (article, interval.lower(), note))
-        finally:
-            sys.exit()
+    args = parser.parse_args()
+
+
+def intervals(args):
+    print(args.starting_note)
+    print(args.interval)
+
+
+def scales(args):
+    print(args.tonic)
+
+
+# def oldintervals():
+#     argparser = parser.PyMusicArgumentParser()
+#     tmpnote, interval, descend = unpack_arguments(argparser)
+#
+#     note = validate_note(tmpnote)
+#     if note is None:
+#         print(invalid_note_help)
+#         sys.exit()
+#
+#     if interval is None:
+#         print(invalid_interval_help)
+#         sys.exit()
+#
+#     article = "An" if interval.startswith('AUGMENTED') else "A"
+#
+#     if descend:
+#         try:
+#             bottom_note = note.descend_interval(interval)
+#             print("%s %s descending from %s is %s.\n" % (article, interval.lower(), note, bottom_note))
+#         except notes.InvalidIntervalError:
+#             print("%s %s descending from %s results in an invalid note.\n" % (article, interval.lower(), note))
+#         finally:
+#             sys.exit()
+#     else:
+#         try:
+#             top_note = note.ascend_interval(interval)
+#             print("%s %s ascending from %s is %s.\n" % (article, interval.lower(), note, top_note))
+#         except notes.InvalidIntervalError:
+#             print("%s %s ascending from %s results in an invalid notes.\n" % (article, interval.lower(), note))
+#         finally:
+#             sys.exit()
 
 
 def unpack_arguments(argparser):
