@@ -1,0 +1,7 @@
+spec
+.idea/
+musictheorpy/__pycache__/
+musictheorpy/console/__pycache__/
+tests/console_tests/__pycache__/
+tests/__pycache__/
+*.egg-info
