@@ -35,7 +35,6 @@ class PyMusicArgumentParser:
                         "the default behavior of ascending from the starting note will be used."
 
         self._parser.add_argument('starting_note', type=str, help=note_usage)
-        groups = self._parser.add_mutually_exclusive_group()
         self._parser.add_argument('interval', type=str, help=interval_usage)
         self._parser.add_argument('-d', '--descend', action='store_true', help=descend_usage)
 
