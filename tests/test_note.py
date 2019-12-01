@@ -16,8 +16,6 @@ class TestNote(unittest.TestCase):
 
     def test_descend_interval(self):
         for note, pairs in INTERVAL_NOTE_PAIRS.items():
-            if note == 'B##':
-                break
             for interval, steps in INTERVAL_STEPS.items():
                 if steps >= 100:
                     if steps % 10 == 6:  # augmented 4 compliment is a diminished 5
