@@ -165,9 +165,6 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
                                107: 'E', 108: None, 109: 'F#', 110: None, 111: 'G#', 112: None}
                        }
 
-# TODO: complete implementation of INTERVAL_NOTE_PAIRS. This is a high priority as it will allow the system to handle
-#  all notes, scales, and intervals. This will eventually lead to implementing tritones and chords.
-
 
 class InvalidIntervalError(Exception):
     """
