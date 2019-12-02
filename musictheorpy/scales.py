@@ -43,13 +43,14 @@ def validate_tonic(unpacked_scale_name):
                                 "key signature." % unpacked_scale_name['TONIC'])
 
 
-def build_scale(tonic, intervals):
+def build_scale(tonic, quality):
     """
     :param tonic: a string representing the tonic of the scale.
-    :param intervals: a list of integers representing the intervals that make up the scale.
+    :param quality: a string indicating the quality of the scale.
     :return: a list of Note objects in the scale.
     """
-    scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in intervals]
+    scale_intervals = SCALE_INTERVALS[quality]
+    scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
     return [Note(note_name) for note_name in scale_note_names]
 
 
@@ -87,8 +88,7 @@ class Scale:
 
         self.tonic = unpacked_scale_name['TONIC']
         self.quality = unpacked_scale_name['QUALITY']
-        self.scale_intervals = SCALE_INTERVALS[self.quality]
-        self._notes = build_scale(self.tonic, self.scale_intervals)
+        self._notes = build_scale(self.tonic, self.quality)
         self.key_signature = fetch_key_signature(self.tonic, self.quality)
 
     def __getitem__(self, degree):
