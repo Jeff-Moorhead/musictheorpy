@@ -51,7 +51,7 @@ def build_scale(tonic, quality):
     """
     scale_intervals = SCALE_INTERVALS[quality]
     scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
-    return [Note(note_name) for note_name in scale_note_names]
+    return tuple([Note(note_name) for note_name in scale_note_names])
 
 
 def fetch_key_signature(tonic, quality):
@@ -86,17 +86,17 @@ class Scale:
         unpacked_scale_name = unpack_scale_name(scale_name)
         validate_tonic(unpacked_scale_name)
 
-        self.tonic = unpacked_scale_name['TONIC']
-        self.quality = unpacked_scale_name['QUALITY']
-        self._notes = build_scale(self.tonic, self.quality)
-        self.key_signature = fetch_key_signature(self.tonic, self.quality)
+        self._tonic = unpacked_scale_name['TONIC']
+        self._quality = unpacked_scale_name['QUALITY']
+        self._notes = build_scale(self._tonic, self._quality)
+        self.key_signature = fetch_key_signature(self._tonic, self._quality)
 
     def __getitem__(self, degree):
         """
-        :param degree: a string representing the scale degree, such as TONIC, MEDIANT, etc.
+        :param degree: a string representing the scale degree, such as TONIC, MEDIANT, etc. degree should be all caps.
         :return: a Note object representing the scale degree.
         """
-        if self.quality != 'MAJOR' and 'MINOR' not in self.quality:
+        if self._quality != 'MAJOR' and 'MINOR' not in self._quality:
             raise InvalidDegreeError("Only major and minor scales are subscriptable")
 
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,
@@ -115,7 +115,7 @@ class Scale:
         """
         :return: a list of strings representing the qualified names of each note in this scale, in ascending order.
         """
-        return [note.qualified_name for note in self._notes]
+        return tuple([note.qualified_name for note in self._notes])
 
 
 class InvalidTonicError(Exception):

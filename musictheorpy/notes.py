@@ -43,16 +43,27 @@ class Note:
         if qualified_name not in VALID_QUALIFIED_NAMES:
             raise NoteNameError("Invalid note name: %s." % qualified_name)
 
-        self.qualified_name = qualified_name[0] + qualified_name[1:]
+        self.qualified_name = qualified_name
+
+    @property
+    def qualified_name(self):
+        return self._qualified_name
+
+    @qualified_name.setter
+    def qualified_name(self, name):
+        if name not in VALID_QUALIFIED_NAMES:
+            raise NoteNameError("Invalid note name: %s." % name)
+        else:
+            self._qualified_name = name
 
     def __str__(self):
-        return self.qualified_name
+        return self._qualified_name
 
     def __repr__(self):
-        return self.qualified_name
+        return self._qualified_name
 
     def __eq__(self, other):
-        return self.qualified_name == other.qualified_name
+        return self._qualified_name == other._qualified_name
 
     def ascend_interval(self, qualified_interval_name):
         """
@@ -62,11 +73,11 @@ class Note:
         """
         try:
             number_of_steps = INTERVAL_STEPS[qualified_interval_name]
-            interval_top_note = INTERVAL_NOTE_PAIRS[self.qualified_name][number_of_steps]
+            interval_top_note = INTERVAL_NOTE_PAIRS[self._qualified_name][number_of_steps]
             return Note(interval_top_note)
         except NoteNameError:
             raise InvalidIntervalError("Ascending a %s from %s results in an invalid note." % (qualified_interval_name,
-                                                                                               self.qualified_name))
+                                                                                               self._qualified_name))
 
     def descend_interval(self, qualified_interval_name):
         """
@@ -76,11 +87,11 @@ class Note:
         """
         try:
             number_of_steps = INTERVAL_STEPS[qualified_interval_name]
-            interval_bottom_note = fetch_interval_bottom_note(self.qualified_name, number_of_steps)
+            interval_bottom_note = fetch_interval_bottom_note(self._qualified_name, number_of_steps)
             return Note(interval_bottom_note)
         except NoteNameError:
             raise InvalidIntervalError("Descending a %s from %s results in an invalid note." % (qualified_interval_name,
-                                                                                                self.qualified_name))
+                                                                                                self._qualified_name))
 
 
 class NoteNameError(Exception):
