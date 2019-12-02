@@ -9,18 +9,18 @@ class TestScale(unittest.TestCase):
         self.d_harm_minor = Scale('D HARMONIC MINOR')
 
     def test_scale(self):
-        c_note_names = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-        c_notes = [Note(name) for name in c_note_names]
-        self.assertEqual(self.c_scale.tonic, 'C')
+        c_note_names = ('C', 'D', 'E', 'F', 'G', 'A', 'B')
+        c_notes = tuple([Note(name) for name in c_note_names])
+        self.assertEqual(self.c_scale._tonic, 'C')
         self.assertEqual(self.c_scale.key_signature, [])
-        self.assertEqual(self.c_scale.quality, 'MAJOR')
+        self.assertEqual(self.c_scale._quality, 'MAJOR')
         self.assertEqual(self.c_scale._notes, c_notes)
 
-        d_min_note_names = ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
-        d_min_notes = [Note(name) for name in d_min_note_names]
-        self.assertEqual(self.d_harm_minor.tonic, 'D')
+        d_min_note_names = ('D', 'E', 'F', 'G', 'A', 'Bb', 'C#')
+        d_min_notes = tuple([Note(name) for name in d_min_note_names])
+        self.assertEqual(self.d_harm_minor._tonic, 'D')
         self.assertEqual(self.d_harm_minor.key_signature, ['Bb'])
-        self.assertEqual(self.d_harm_minor.quality, 'HARMONIC MINOR')
+        self.assertEqual(self.d_harm_minor._quality, 'HARMONIC MINOR')
         self.assertEqual(self.d_harm_minor._notes, d_min_notes)
 
     def test_getitem(self):
@@ -35,7 +35,7 @@ class TestScale(unittest.TestCase):
         self.assertFalse(Note('F#') in self.d_harm_minor)
 
     def test_ascend(self):
-        self.assertEqual(self.c_scale.ascend(), ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+        self.assertEqual(self.c_scale.ascend(), ('C', 'D', 'E', 'F', 'G', 'A', 'B'))
 
     def test_invalid_degree(self):
         with self.assertRaises(InvalidDegreeError):
