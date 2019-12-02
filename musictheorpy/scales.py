@@ -43,16 +43,6 @@ def validate_tonic(unpacked_scale_name):
                                 "key signature." % unpacked_scale_name['TONIC'])
 
 
-def fetch_scale_intervals(quality):
-    """
-    :param quality: a string representing the quality of the scale. Valid qualities are MAJOR, NATURAL MINOR,
-    HARMONIC MINOR, MELODIC MINOR, WHOLE TONE, WHOLE HALF DIMINISHED, and HALF WHOLE DIMINISHED. Future modifications
-    will support modal scales.
-    :return: a list of integers representing the intervals that make up the scale.
-    """
-    return SCALE_INTERVALS[quality]
-
-
 def build_scale(tonic, intervals):
     """
     :param tonic: a string representing the tonic of the scale.
@@ -97,7 +87,7 @@ class Scale:
 
         self.tonic = unpacked_scale_name['TONIC']
         self.quality = unpacked_scale_name['QUALITY']
-        self.scale_intervals = fetch_scale_intervals(self.quality)
+        self.scale_intervals = SCALE_INTERVALS[self.quality]
         self._notes = build_scale(self.tonic, self.scale_intervals)
         self.key_signature = fetch_key_signature(self.tonic, self.quality)
 

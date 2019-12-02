@@ -6,26 +6,6 @@ VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']
 VALID_QUALIFIED_NAMES = [name + qualifier for name in VALID_NOTES for qualifier in VALID_QUALIFIERS]
 
 
-def fetch_interval_steps(qualified_interval_name):
-    """
-    This is a utility function and is not intended for external use.
-    :param qualified_interval_name: a string representing the qualified intverval name to be processed. The qualified
-    interval name is used to search the INTERVAL_STEPS dictionary.
-    :return: an integer corresponding to the number of steps in the qualified interval.
-    """
-    return INTERVAL_STEPS[qualified_interval_name]
-
-
-def fetch_interval_top_note(qualified_note_name, steps):
-    """
-    This is a utility function and is not intended for external use.
-    :param qualified_note_name: the qualified note name of the starting note for the interval.
-    :param steps: an integer indicating the number of steps to ascend from the starting note.
-    :return: a string representing the qualified note name of the top note of the interval.
-    """
-    return INTERVAL_NOTE_PAIRS[qualified_note_name][steps]
-
-
 def fetch_interval_bottom_note(qualified_note_name, steps):
     """
     This is a utility function and is not intended for external use.
@@ -81,9 +61,8 @@ class Note:
         a valid note, such as F###, a note object with a qualified name of Z# is returned.
         """
         try:
-            number_of_steps = fetch_interval_steps(qualified_interval_name)
-
-            interval_top_note = fetch_interval_top_note(self.qualified_name, number_of_steps)
+            number_of_steps = INTERVAL_STEPS[qualified_interval_name]
+            interval_top_note = INTERVAL_NOTE_PAIRS[self.qualified_name][number_of_steps]
             return Note(interval_top_note)
         except NoteNameError:
             raise InvalidIntervalError("Ascending a %s from %s results in an invalid note." % (qualified_interval_name,
@@ -96,8 +75,7 @@ class Note:
         a valid note, such as F###, a note object with a qualified name of Z# is returned.
         """
         try:
-            number_of_steps = fetch_interval_steps(qualified_interval_name)
-
+            number_of_steps = INTERVAL_STEPS[qualified_interval_name]
             interval_bottom_note = fetch_interval_bottom_note(self.qualified_name, number_of_steps)
             return Note(interval_bottom_note)
         except NoteNameError:
