@@ -50,19 +50,17 @@ KEY_SIGNATURES = {0: [], 1: SHARPS[:1], 2: SHARPS[:2], 3: SHARPS[:3], 4: SHARPS[
 class Scale:
     """
     Represents a collection of notes. Scales are built from a series of whole and half steps and have a key signature
-    and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name.
+    and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name. Valid tonics are
+    English letters A through G, and valid qualities are MAJOR, HARMONIC MINOR, MELODIC MINOR, and NATURAL MINOR. An
+    InvalidTonicError is raised if the scale name has a key signature involving double sharps or double flats.
 
     Attributes
     ----------
     key_signature
-       A set of note qualifiers that determine which notes in the scale should be sharp or flat. No key signature is
-       also possible and represents C Major and A Minor.
+       A list of note names indicating the sharp or flat notes for the given scale. An empty list represents all
+       natural notes.
     """
     def __init__(self, scale_name):
-        """
-        :param scale_name: a string representing the scale name and quality, e.g. C NATURAL MINOR. Scale_name should be
-        all caps.
-        """
         unpacked_scale_name = unpack_scale_name(scale_name)
         validate_tonic(unpacked_scale_name)
 
@@ -118,7 +116,6 @@ class InvalidDegreeError(Exception):
 
 
 def build_scale(tonic, quality):
-    # return a list of Note objects in the scale.
     scale_intervals = SCALE_INTERVALS[quality]
     scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
     return tuple([Note(note_name) for note_name in scale_note_names])
@@ -132,7 +129,6 @@ def fetch_key_signature(tonic, quality):
 
 
 def unpack_scale_name(scale):
-    # return a dictionary containing the tonic and quality of the scale as string.
     split_scale = scale.split(' ', 1)
     tonic = split_scale[0]
     quality = split_scale[1]
@@ -140,7 +136,6 @@ def unpack_scale_name(scale):
 
 
 def validate_tonic(unpacked_scale_name):
-    # Raise an InvalidTonicError if the tonic and quality is invalid.
     if 'MINOR' in unpacked_scale_name['QUALITY']:
         valid_tonics = VALID_SCALE_NAMES['MINOR']
     else:
