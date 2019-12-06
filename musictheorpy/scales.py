@@ -1,4 +1,24 @@
-""" Classes and functions to implement scales """
+"""
+=========
+scales.py
+=========
+
+Provides tools to perform calculations related to scales, such as determining key signatures, and building scales of
+different qualities.
+
+Classes
+-------
+-Scale
+   Represents a scale and facilitates key signature and note calculations.
+
+Exceptions
+----------
+- InvalidTonicError
+   Raised when a tonic results in an invalid key signature.
+-InvalidDegreeError
+   Raised when accessing an invalid scale degree.
+
+"""
 from musictheorpy.interval_utils import SCALE_INTERVALS, INTERVAL_NOTE_PAIRS
 from musictheorpy.notes import Note
 
@@ -27,18 +47,17 @@ KEY_SIGNATURES = {0: [], 1: SHARPS[:1], 2: SHARPS[:2], 3: SHARPS[:3], 4: SHARPS[
                   -6: FLATS[:6], -7: FLATS[:7]}
 
 
-def build_scale(tonic, quality):
-    """
-    :param tonic: a string representing the tonic of the scale.
-    :param quality: a string indicating the quality of the scale.
-    :return: a list of Note objects in the scale.
-    """
-    scale_intervals = SCALE_INTERVALS[quality]
-    scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
-    return tuple([Note(note_name) for note_name in scale_note_names])
-
-
 class Scale:
+    """
+    Represents a collection of notes. Scales are built from a series of whole and half steps and have a key signature
+    and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name.
+
+    Attributes
+    ----------
+    key_signature
+       A set of note qualifiers that determine which notes in the scale should be sharp or flat. No key signature is
+       also possible and represents C Major and A Minor.
+    """
     def __init__(self, scale_name):
         """
         :param scale_name: a string representing the scale name and quality, e.g. C NATURAL MINOR. Scale_name should be
@@ -96,6 +115,13 @@ class InvalidDegreeError(Exception):
     tonic, supertonic, mediant, subdominant, dominant, submediant, and leading tone.
     """
     pass
+
+
+def build_scale(tonic, quality):
+    # return a list of Note objects in the scale.
+    scale_intervals = SCALE_INTERVALS[quality]
+    scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
+    return tuple([Note(note_name) for note_name in scale_note_names])
 
 
 def fetch_key_signature(tonic, quality):

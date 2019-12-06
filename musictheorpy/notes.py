@@ -25,12 +25,13 @@ VALID_QUALIFIED_NAMES = [name + qualifier for name in VALID_NOTES for qualifier 
 
 class Note:
     """
-    Represent individual notes. Notes are the atomic element in Western music theory and are comprised of a note name
+    Represents individual notes. Notes are the atomic element in Western music theory and are comprised of a note name
     and an optional qualifier.
 
     Public Attributes
     -----------------
-    qualified_name - Note name followed by an optional qualifier.
+    qualified_name
+       Note name followed by an optional qualifier.
     """
     def __init__(self, qualified_name):
         """
@@ -65,7 +66,7 @@ class Note:
 
     def ascend_interval(self, qualified_interval_name):
         """
-        :param str qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3
+        :param str qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3.
         :return: a Note object representing the top note of the interval. If the top note of the interval is not
         a valid note, such as F###, a note object with a qualified name of Z# is returned.
         """
@@ -79,7 +80,7 @@ class Note:
 
     def descend_interval(self, qualified_interval_name):
         """
-        :param qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3
+        :param qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3.
         :return: a Note object representing the bottom note of the interval. If the bottom note of the interval is not
         a valid note, such as F###, a note object with a qualified name of Z# is returned.
         """
