@@ -1,4 +1,21 @@
-""" notes.py - defines note classes and utility functions. """
+"""
+========
+notes.py
+========
+
+Provides an interface for performing calculations related to individual notes, such as ascending and descending
+intervals.
+
+Classes
+-------
+- Note
+   Represents an individual note.
+
+Exceptions
+----------
+- NoteNameError
+   Raised when a note name is not valid.
+"""
 from musictheorpy.interval_utils import INTERVAL_NOTE_PAIRS, INTERVAL_STEPS, InvalidIntervalError
 
 VALID_NOTES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
@@ -6,30 +23,15 @@ VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']
 VALID_QUALIFIED_NAMES = [name + qualifier for name in VALID_NOTES for qualifier in VALID_QUALIFIERS]
 
 
-def fetch_interval_bottom_note(qualified_note_name, steps):
-    """
-    This is a utility function and is not intended for external use.
-    :param qualified_note_name: the qualified note name of the starting note for the interval.
-    :param steps: an integer indicating the number of steps to descend from the starting note.
-    :return: a string representing the bottom note of the interval. This is found by determining the compliment to
-    steps. The compliment of steps is 12 - steps. For example, a perfect 4 is five steps. Ascending from C, this gives
-    F. 12 - 5 = 7, which is the number of steps in a perfect 5. Descending a perfect 5 from C gives F. Thus, the
-    compliment of a perfect 4 ascending is a perfect 5 descending.
-    """
-    if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
-        if steps % 10 == 6:  # augmented 4 compliment is a diminished 5
-            steps_compliment = 6
-        else:
-            steps_compliment = 12 - (steps % 100) + 100
-    else:
-        if steps == 6:  # diminished 5 compliment is an augmented 4
-            steps_compliment = 106
-        else:
-            steps_compliment = 12 - steps
-    return INTERVAL_NOTE_PAIRS[qualified_note_name][steps_compliment]
-
-
 class Note:
+    """
+    Represent individual notes. Notes are the atomic element in Western music theory and are comprised of a note name
+    and an optional qualifier.
+
+    Public Attributes
+    -----------------
+    qualified_name - Note name followed by an optional qualifier.
+    """
     def __init__(self, qualified_name):
         """
         :param qualified_name: The qualified name of the note. The note's qualified name is the capitalized note
@@ -39,10 +41,6 @@ class Note:
         natural'. If an invalid qualified note name is passed, a NoteNameError is raised. Once a Note object is created,
         it's qualified name should not be modified.
         """
-
-        if qualified_name not in VALID_QUALIFIED_NAMES:
-            raise NoteNameError("Invalid note name: %s." % qualified_name)
-
         self.qualified_name = qualified_name
 
     @property
@@ -57,17 +55,17 @@ class Note:
             self._qualified_name = name
 
     def __str__(self):
-        return self._qualified_name
+        return self.qualified_name
 
     def __repr__(self):
-        return self._qualified_name
+        return self.qualified_name
 
     def __eq__(self, other):
-        return self._qualified_name == other._qualified_name
+        return self.qualified_name == other.qualified_name
 
     def ascend_interval(self, qualified_interval_name):
         """
-        :param qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3
+        :param str qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3
         :return: a Note object representing the top note of the interval. If the top note of the interval is not
         a valid note, such as F###, a note object with a qualified name of Z# is returned.
         """
@@ -101,4 +99,16 @@ class NoteNameError(Exception):
     pass
 
 
-# TODO: implement a main() for cli
+def fetch_interval_bottom_note(qualified_note_name, steps):
+    # Finds the bottom note of an interval. Compliment to the interval is 12 - steps
+    if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
+        if steps % 10 == 6:  # augmented 4 compliment is a diminished 5
+            steps_compliment = 6
+        else:
+            steps_compliment = 12 - (steps % 100) + 100
+    else:
+        if steps == 6:  # diminished 5 compliment is an augmented 4
+            steps_compliment = 106
+        else:
+            steps_compliment = 12 - steps
+    return INTERVAL_NOTE_PAIRS[qualified_note_name][steps_compliment]
