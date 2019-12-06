@@ -2,6 +2,17 @@
 This module holds constants and classes that facilitate the processing of intervals.
 """
 
+
+class InvalidIntervalError(Exception):
+    """
+    Raised when an interval would result in an invalid top (ascending) or bottom (descending) note, e.g. a diminished
+    third ascending from Gb would technically be a Bbbb (B triple flat). While this is enharmonically equivalent to Ab,
+    Gb to Ab is a major second, not a diminished third. Because the technically correct note is not a valid note name,
+    an InvalidIntervalError should be raised.
+    """
+    pass
+
+
 INTERVAL_STEPS = {'PERFECT 0': 0, 'DIMINISHED 2': 100,
                   'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1,
                   'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2,
@@ -164,13 +175,3 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
                                100: 'A', 101: None, 102: 'B', 103: None, 104: 'C#', 105: None, 106: None,
                                107: 'E', 108: None, 109: 'F#', 110: None, 111: 'G#', 112: None}
                        }
-
-
-class InvalidIntervalError(Exception):
-    """
-    Raised when an interval would result in an invalid top (ascending) or bottom (descending) note, e.g. a diminished
-    third ascending from Gb would technically be a Bbbb (B triple flat). While this is enharmonically equivalent to Ab,
-    Gb to Ab is a major second, not a diminished third. Because the technically correct note is not a valid note name,
-    an InvalidIntervalError should be raised.
-    """
-    pass
