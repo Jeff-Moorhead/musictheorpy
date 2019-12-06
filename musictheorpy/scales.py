@@ -99,22 +99,14 @@ class InvalidDegreeError(Exception):
 
 
 def fetch_key_signature(tonic, quality):
-    """
-    :param tonic: a string representing the scale's tonic note.
-    :param quality: a string representing the scale's quality. Valid qualities are MAJOR, NATURAL MINOR, HARMONIC MINOR
-    and MELODIC MINOR.
-    :return: a list of strings representing the scale's key signature. C major and A minor scales return an empty list.
-    """
+    # return a list of strings representing the scale's key signature. C major and A minor scales return an empty list.
     qualified_tonic = tonic + (' MINOR' if 'MINOR' in quality else ' MAJOR')
     key_signature_number = KEY_SIGNATURE_NUMBERS[qualified_tonic]
     return KEY_SIGNATURES[key_signature_number]
 
 
 def unpack_scale_name(scale):
-    """
-    :param scale: a string consisting of the desired scale's tonic followed by the quality.
-    :return: a dictionary containing the tonic and quality of the scale as string.
-    """
+    # return a dictionary containing the tonic and quality of the scale as string.
     split_scale = scale.split(' ', 1)
     tonic = split_scale[0]
     quality = split_scale[1]
@@ -122,10 +114,7 @@ def unpack_scale_name(scale):
 
 
 def validate_tonic(unpacked_scale_name):
-    """
-    :param unpacked_scale_name: a dictionary of the unpacked scale data.
-    :return: None. Raise an InvalidTonicError if the scale name is invalid.
-    """
+    # Raise an InvalidTonicError if the tonic and quality is invalid.
     if 'MINOR' in unpacked_scale_name['QUALITY']:
         valid_tonics = VALID_SCALE_NAMES['MINOR']
     else:
