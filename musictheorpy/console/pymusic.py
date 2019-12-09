@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
+""" The main commandline entry point to Pymusic """
+
 import sys
 import argparse
 
 import musictheorpy.notes as notes
-# from musictheorpy.console import parser
+
 
 invalid_note_help = "You have entered an invalid note name. Valid notes are uppercase English letters A through G\n"\
                     "possibly followed by a qualifier. Valid qualifiers are #, ##, b, and bb. No qualifier represents\n"\
@@ -36,32 +38,71 @@ def main():
     subparsers = parser.add_subparsers()
 
     intervalparser = subparsers.add_parser('intervals')
-    intervalparser.add_argument('notename')
+    intervalparser.add_argument('startingnote')
     intervalparser.add_argument('interval')
     intervalparser.add_argument('-d', '--descend', action='store_true')
-    intervalparser.set_defaults(func=notesfunc)
+    intervalparser.set_defaults(func=intervalsfunc)
 
     args = parser.parse_args()
     args.func(args)
 
-    # ----- Notes -----
-    # validate note input, validate interval input
-    # print appropriate messages to user if input is invalid
-    # if input is valid, print output
 
-    # ----- Scales  -----
-    # validate tonic and quality
-    # if no options are passed, print all notes in the scale
-    # if -d, --degree is passed, validate degree name input, print output
-    # if -n, --number is passed, validate degree number, print output
-    # if -m, --mode is passed, validate mode name, print output
-    # if -f, --minor is passed, validate minor quality, print output
+def intervalsfunc(args):
+    startingnote, interval, descend = unpack_arguments(args)
+
+    if startingnote is None:
+        print(invalid_note_help)
+        sys.exit()
+
+    if interval is None:
+        print(invalid_interval_help)
+        sys.exit()
+
+    article = "An" if interval.startswith('AUGMENTED') else "A"
+
+    if descend:
+        try:
+            bottom_note = startingnote.descend_interval(interval)
+            print("%s %s descending from %s is %s.\n" % (article, interval.lower(), startingnote, bottom_note))
+        except notes.InvalidIntervalError:
+            print("%s %s descending from %s results in an invalid note.\n" % (article, interval.lower(), startingnote))
+        finally:
+            sys.exit()
+    else:
+        try:
+            top_note = startingnote.ascend_interval(interval)
+            print("%s %s ascending from %s is %s.\n" % (article, interval.lower(), startingnote, top_note))
+        except notes.InvalidIntervalError:
+            print("%s %s ascending from %s results in an invalid notes.\n" % (article, interval.lower(), startingnote))
+        finally:
+            sys.exit()
 
 
-def notesfunc(args):
-    n = notes.Note(args.notename)
-    i = INTERVAL_MAP[args.interval]
-    print(n.ascend_interval(i))
+def unpack_arguments(args):
+    note = get_note_obj(args.startingnote)
+    interval = map_interval(args.interval)
+
+    if args.descend:
+        descend = args.descend
+        return note, interval, descend
+
+    return note, interval, False
+
+
+def get_note_obj(notename):
+    try:
+        note = notes.Note(notename)
+    except notes.NoteNameError:
+        return None
+
+    return note
+
+
+def map_interval(interval):
+    try:
+        return INTERVAL_MAP[interval]
+    except KeyError:
+        return None
 
 
 if __name__ == '__main__':
