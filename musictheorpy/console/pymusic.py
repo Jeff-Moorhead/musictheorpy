@@ -42,13 +42,22 @@ def main():
     intervalparser.add_argument('startingnote')
     intervalparser.add_argument('interval')
     intervalparser.add_argument('-d', '--descend', action='store_true')
-    intervalparser.set_defaults(func=intervalsfunc)
+    intervalparser.set_defaults(func=intervalsmain)
+
+    scaleparser = subparsers.add_parser('scales')
+    scaleparser.add_argument('tonic')
+    scaleparser.add_argument('-m', '--minor')
+    scaleparser.add_argument('-d', '--degree')
+    scaleparser.add_argument('-n', '--number')
+    scaleparser.add_argument('-r', '--relative', action='store_true')
+    scaleparser.add_argument('-p', '--parallel', action='store_true')
+    scaleparser.set_defaults(func=scalesmain)
 
     args = parser.parse_args()
     args.func(args)
 
 
-def intervalsfunc(args):
+def intervalsmain(args):
     startingnote, interval, descend = unpack_arguments(args)
 
     if startingnote is None:
@@ -77,6 +86,10 @@ def intervalsfunc(args):
             print("%s %s ascending from %s results in an invalid notes.\n" % (article, interval.lower(), startingnote))
         finally:
             sys.exit()
+
+
+def scalesmain(args):
+    pass
 
 
 def unpack_arguments(args):
