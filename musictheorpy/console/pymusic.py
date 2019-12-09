@@ -18,12 +18,31 @@ invalid_interval_help = "You have entered an invalid interval.\n" \
                         "that major, augmented, and perfect are capitalized, while diminished and minor are\n"\
                         "lowercase. Valid interval numbers are 0 through 15."
 
+INTERVAL_MAP = {'P0': 'PERFECT 0', 'd2': 'DIMINISHED 2', 'm2': 'MINOR 2', 'A0': 'AUGMENTED 0',
+                'm9': 'MINOR 9', 'M2': 'MAJOR 2', 'd3': 'DIMINISHED 3', 'M9': 'MAJOR 9',
+                'm3': 'MINOR 3', 'A2': 'AUGMENTED 2', 'm10': 'MINOR 10', 'M3': 'MAJOR 3',
+                'd4': 'DIMINISHED 4', 'M10': 'MAJOR 10', 'P4': 'PERFECT 4', 'A3': 'AUGMENTED 3',
+                'P11': 'PERFECT 11', 'd5': 'DIMINISHED 5', 'A4': 'AUGMENTED 4', 'd12': 'DIMINISHED 12',
+                'P5': 'PERFECT 5', 'd6': 'DIMINISHED 6', 'P12': 'PERFECT 12', 'm6': 'MINOR 6',
+                'A5': 'AUGMENTED 5', 'm13': 'MINOR 13', 'M6': 'MAJOR 6', 'd7': 'DIMINISHED 7',
+                'M13': 'MAJOR 13', 'm7': 'MINOR 7', 'A6': 'AUGMENTED 6', 'm14': 'MINOR 14',
+                'M7': 'MAJOR 7', 'd8': 'DIMINISHED 8', 'M14': 'MAJOR 14', 'P8': 'PERFECT 8',
+                'A7': 'AUGMENTED 7', 'P15': 'PERFECT 15', 'd9': 'DIMINISHED 9',
+                }
+
 
 def main():
-    # get an ArgumentParser object
-    # add subparsers to ArgumentParser
-    # create one subparser per pymusic subcommand
-    # add appropriate arguments to each subparser
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+
+    intervalparser = subparsers.add_parser('intervals')
+    intervalparser.add_argument('notename')
+    intervalparser.add_argument('interval')
+    intervalparser.add_argument('-d', '--descend', action='store_true')
+    intervalparser.set_defaults(func=notesfunc)
+
+    args = parser.parse_args()
+    args.func(args)
 
     # ----- Notes -----
     # validate note input, validate interval input
@@ -37,7 +56,12 @@ def main():
     # if -n, --number is passed, validate degree number, print output
     # if -m, --mode is passed, validate mode name, print output
     # if -f, --minor is passed, validate minor quality, print output
-    pass
+
+
+def notesfunc(args):
+    n = notes.Note(args.notename)
+    i = INTERVAL_MAP[args.interval]
+    print(n.ascend_interval(i))
 
 
 if __name__ == '__main__':
