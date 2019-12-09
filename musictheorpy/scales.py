@@ -93,7 +93,7 @@ class Scale:
         """
         :return: a list of strings representing the qualified names of each note in this scale, in ascending order.
         """
-        return tuple([note.qualified_name for note in self._notes])
+        return tuple([note for note in self._notes])
 
 
 class InvalidTonicError(Exception):
@@ -118,7 +118,7 @@ class InvalidDegreeError(Exception):
 def build_scale(tonic, quality):
     scale_intervals = SCALE_INTERVALS[quality]
     scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
-    return tuple([Note(note_name) for note_name in scale_note_names])
+    return tuple([note_name for note_name in scale_note_names])
 
 
 def fetch_key_signature(tonic, quality):
