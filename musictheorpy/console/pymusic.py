@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 """ The main commandline entry point to Pymusic """
+# TODO: update usage for invalid intervals. Fix formatting of usage output.
 
 import sys
 import argparse
