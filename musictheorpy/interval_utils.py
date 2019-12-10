@@ -23,13 +23,11 @@ SCALE_INTERVALS = {'MAJOR': [0, 2, 4, 5, 7, 9, 11],
                    'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
                    }
 
-TRIAD_INTERVALS = {'MAJOR': [0, 4, 7],
+CHORD_INTERVALS = {'MAJOR': [0, 4, 7],
                    'MINOR': [0, 3, 7],
-                   'DOMINISHED': [0, 3, 6],
-                   'AUGMENTED': [0, 4, 108]
-                   }
-
-CHORD_INTERVALS = {'DOMINANT 7': [0, 4, 7, 10],
+                   'DIMINISHED': [0, 3, 6],
+                   'AUGMENTED': [0, 4, 108],
+                   'DOMINANT 7': [0, 4, 7, 10],
                    'MAJOR 7': [0, 4, 7, 11],
                    'MINOR 7': [0, 3, 7, 10],
                    }  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
