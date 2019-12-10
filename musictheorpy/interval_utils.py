@@ -29,7 +29,10 @@ TRIAD_INTERVALS = {'MAJOR': [0, 4, 7],
                    'AUGMENTED': [0, 4, 108]
                    }
 
-CHORD_INTERVALS = {'DOMINANT 7': [0, 4, 7, 10]}  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
+CHORD_INTERVALS = {'DOMINANT 7': [0, 4, 7, 10],
+                   'MAJOR 7': [0, 4, 7, 11],
+                   'MINOR 7': [0, 3, 7, 10],
+                   }  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
 
 INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6: 'Eb',
                              7: 'E', 8: 'F', 9: 'F#', 10: 'G', 11: 'G#', 12: 'A',
