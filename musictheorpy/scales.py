@@ -19,8 +19,7 @@ Exceptions
    Raised when accessing an invalid scale degree.
 
 """
-from musictheorpy.interval_utils import SCALE_INTERVALS, INTERVAL_NOTE_PAIRS
-from musictheorpy.notes import Note
+import musictheorpy.interval_utils as int_utils
 
 VALID_SCALE_NAMES = {'MAJOR': ['A', 'B', 'C', 'D', 'E', 'F', 'G',
                                'C#', 'F#',
@@ -61,12 +60,12 @@ class Scale:
        natural notes.
     """
     def __init__(self, scale_name):
-        unpacked_scale_name = unpack_scale_name(scale_name)
+        unpacked_scale_name = int_utils.unpack_group_name(scale_name)
         validate_tonic(unpacked_scale_name)
 
-        self._tonic = unpacked_scale_name['TONIC']
+        self._tonic = unpacked_scale_name['ROOT']
         self._quality = unpacked_scale_name['QUALITY']
-        self._notes = build_scale(self._tonic, self._quality)
+        self._notes = int_utils.build_group(self._tonic, int_utils.SCALE_INTERVALS[self._quality])
         self.key_signature = fetch_key_signature(self._tonic, self._quality)
 
     def __getitem__(self, degree):
@@ -115,24 +114,11 @@ class InvalidDegreeError(Exception):
     pass
 
 
-def build_scale(tonic, quality):
-    scale_intervals = SCALE_INTERVALS[quality]
-    scale_note_names = [INTERVAL_NOTE_PAIRS[tonic][interval] for interval in scale_intervals]
-    return tuple([note_name for note_name in scale_note_names])
-
-
 def fetch_key_signature(tonic, quality):
     # return a list of strings representing the scale's key signature. C major and A minor scales return an empty list.
     qualified_tonic = tonic + (' MINOR' if 'MINOR' in quality else ' MAJOR')
     key_signature_number = KEY_SIGNATURE_NUMBERS[qualified_tonic]
     return KEY_SIGNATURES[key_signature_number]
-
-
-def unpack_scale_name(scale):
-    split_scale = scale.split(' ', 1)
-    tonic = split_scale[0]
-    quality = split_scale[1]
-    return {'TONIC': tonic, 'QUALITY': quality}
 
 
 def validate_tonic(unpacked_scale_name):
@@ -141,9 +127,7 @@ def validate_tonic(unpacked_scale_name):
     else:
         valid_tonics = VALID_SCALE_NAMES['MAJOR']
 
-    if unpacked_scale_name['TONIC'] not in valid_tonics:
+    if unpacked_scale_name['ROOT'] not in valid_tonics:
         raise InvalidTonicError("Invalid tonic: %s. It is possible that this tonic is a valid note name but that "
                                 "building the desired scale from this note would result in a scale with an invalid "
-                                "key signature." % unpacked_scale_name['TONIC'])
-
-# TODO: Implement a main() for cli
+                                "key signature." % unpacked_scale_name['ROOT'])

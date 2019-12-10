@@ -2,17 +2,6 @@
 This module holds constants and classes that facilitate the processing of intervals.
 """
 
-
-class InvalidIntervalError(Exception):
-    """
-    Raised when an interval would result in an invalid top (ascending) or bottom (descending) note, e.g. a diminished
-    third ascending from Gb would technically be a Bbbb (B triple flat). While this is enharmonically equivalent to Ab,
-    Gb to Ab is a major second, not a diminished third. Because the technically correct note is not a valid note name,
-    an InvalidIntervalError should be raised.
-    """
-    pass
-
-
 INTERVAL_STEPS = {'PERFECT 0': 0, 'DIMINISHED 2': 100,
                   'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1,
                   'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2,
@@ -33,6 +22,13 @@ SCALE_INTERVALS = {'MAJOR': [0, 2, 4, 5, 7, 9, 11],
                    'HARMONIC MINOR': [0, 2, 3, 5, 7, 8, 11],
                    'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
                   }
+
+TRIAD_INTERVALS = {'MAJOR': [0, 4, 7],
+                   'MINOR': [0, 3, 7],
+                   'DOMINISHED': [0, 3, 6],
+                   'AUGMENTED': [0, 4, 108]}
+
+CHORD_INTERVALS = {'DOMINANT 7': [0, 4, 7, 10]}  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
 
 INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6: 'Eb',
                              7: 'E', 8: 'F', 9: 'F#', 10: 'G', 11: 'G#', 12: 'A',
@@ -175,3 +171,24 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
                                100: 'A', 101: None, 102: 'B', 103: None, 104: 'C#', 105: None, 106: None,
                                107: 'E', 108: None, 109: 'F#', 110: None, 111: 'G#', 112: None}
                        }
+
+
+def build_group(root, intervals):
+    # build a group of notes (scale, triad, chord) from root using the list of intervals.
+    return tuple([INTERVAL_NOTE_PAIRS[root][interval] for interval in intervals])
+
+def unpack_group_name(groupname):
+    split_group = groupname.split(' ', 1)
+    root = split_group[0]
+    quality = split_group[1]
+    return {'ROOT': root, 'QUALITY': quality}
+
+
+class InvalidIntervalError(Exception):
+    """
+    Raised when an interval would result in an invalid top (ascending) or bottom (descending) note, e.g. a diminished
+    third ascending from Gb would technically be a Bbbb (B triple flat). While this is enharmonically equivalent to Ab,
+    Gb to Ab is a major second, not a diminished third. Because the technically correct note is not a valid note name,
+    an InvalidIntervalError should be raised.
+    """
+    pass
