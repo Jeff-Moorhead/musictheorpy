@@ -21,12 +21,13 @@ SCALE_INTERVALS = {'MAJOR': [0, 2, 4, 5, 7, 9, 11],
                    'NATURAL MINOR': [0, 2, 3, 5, 7, 8, 10],
                    'HARMONIC MINOR': [0, 2, 3, 5, 7, 8, 11],
                    'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
-                  }
+                   }
 
 TRIAD_INTERVALS = {'MAJOR': [0, 4, 7],
                    'MINOR': [0, 3, 7],
                    'DOMINISHED': [0, 3, 6],
-                   'AUGMENTED': [0, 4, 108]}
+                   'AUGMENTED': [0, 4, 108]
+                   }
 
 CHORD_INTERVALS = {'DOMINANT 7': [0, 4, 7, 10]}  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
 
@@ -176,6 +177,7 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
 def build_group(root, intervals):
     # build a group of notes (scale, triad, chord) from root using the list of intervals.
     return tuple([INTERVAL_NOTE_PAIRS[root][interval] for interval in intervals])
+
 
 def unpack_group_name(groupname):
     split_group = groupname.split(' ', 1)

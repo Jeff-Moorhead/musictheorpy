@@ -121,6 +121,7 @@ def fetch_key_signature(tonic, quality):
     return KEY_SIGNATURES[key_signature_number]
 
 
+# TODO: possibly move this to interval_utils
 def validate_tonic(unpacked_scale_name):
     if 'MINOR' in unpacked_scale_name['QUALITY']:
         valid_tonics = VALID_SCALE_NAMES['MINOR']
