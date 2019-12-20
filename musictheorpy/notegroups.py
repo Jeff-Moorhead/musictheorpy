@@ -1,8 +1,9 @@
+import abc
 from . import interval_utils
 
 
-class NoteGroup:
-    """ Not intended for instantiation. Subclass only. """
+class NoteGroup(abc.ABC):
+    @abc.abstractmethod
     def __init__(self, grouptype, qualified_name):
         """ Group type is the type (e.g. SCALE, CHORD) in all caps """
         builder = get_group_builder(grouptype)  # get the function that builds the group
@@ -16,6 +17,7 @@ class NoteGroup:
         """ Needed to validate the root of certain subclasses """
         pass
 
+    @abc.abstractmethod
     def __getitem__(self, item):
         pass
 
