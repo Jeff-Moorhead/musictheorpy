@@ -81,15 +81,6 @@ class Scale(NoteGroup):
         except KeyError:
             raise InvalidDegreeError('Invalid degree name: %s' % degree)
 
-    def __contains__(self, note):
-        return note in self.notes
-
-    def ascend(self):
-        """
-        :return: a list of strings representing the qualified names of each note in this scale, in ascending order.
-        """
-        return tuple([note for note in self.notes])
-
     def validate_root(self, unpacked_name):
         if 'MINOR' in unpacked_name['QUALITY']:
             valid_tonics = VALID_SCALE_NAMES['MINOR']
