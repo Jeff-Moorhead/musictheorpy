@@ -1,6 +1,7 @@
 """
 This module holds constants and classes that facilitate the processing of intervals.
 """
+import abc
 
 INTERVAL_STEPS = {'PERFECT 0': 0, 'DIMINISHED 2': 100,
                   'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1,
@@ -173,6 +174,47 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
                                100: 'A', 101: None, 102: 'B', 103: None, 104: 'C#', 105: None, 106: None,
                                107: 'E', 108: None, 109: 'F#', 110: None, 111: 'G#', 112: None}
                        }
+
+
+class NoteGroup(abc.ABC):
+    def __init__(self, grouptype, qualified_name):
+        """ Group type is the type (e.g. SCALE, CHORD) in all caps """
+        builder = get_group_builder(grouptype)  # get the function that builds the group
+        unpacked_name = unpack_group_name(qualified_name)
+        self.validate_root(unpacked_name)
+        self.root = unpacked_name['ROOT']
+        self.quality = unpacked_name['QUALITY']
+        self.notes = builder(self.root, self.quality)
+
+    @abc.abstractmethod
+    def validate_root(self, unpacked_name):
+        """ Needed to validate scale tonic """
+        pass
+
+    @abc.abstractmethod
+    def __getitem__(self, item):
+        pass
+
+    def __contains__(self, note):
+        return note in self.notes
+
+    def ascend(self):
+        return tuple([note for note in self.notes])
+
+
+def get_group_builder(grouptype):
+    if grouptype == 'SCALE':
+        return build_scale
+    elif grouptype == 'CHORD':
+        return build_chord
+
+
+def build_scale(root, quality):
+    return build_group(root, SCALE_INTERVALS[quality])
+
+
+def build_chord(root, quality):
+    return build_group(root, CHORD_INTERVALS[quality])
 
 
 def build_group(root, intervals):

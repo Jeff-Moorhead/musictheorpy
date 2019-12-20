@@ -46,7 +46,7 @@ KEY_SIGNATURES = {0: [], 1: SHARPS[:1], 2: SHARPS[:2], 3: SHARPS[:3], 4: SHARPS[
                   -6: FLATS[:6], -7: FLATS[:7]}
 
 
-class Scale:
+class Scale(int_utils.NoteGroup):
     """
     Represents a collection of notes. Scales are built from a series of whole and half steps and have a key signature
     and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name. Valid tonics are
@@ -59,21 +59,16 @@ class Scale:
        A list of note names indicating the sharp or flat notes for the given scale. An empty list represents all
        natural notes.
     """
-    def __init__(self, scale_name):
-        unpacked_scale_name = int_utils.unpack_group_name(scale_name)
-        validate_tonic(unpacked_scale_name)
-
-        self._tonic = unpacked_scale_name['ROOT']
-        self._quality = unpacked_scale_name['QUALITY']
-        self._notes = int_utils.build_group(self._tonic, int_utils.SCALE_INTERVALS[self._quality])
-        self.key_signature = fetch_key_signature(self._tonic, self._quality)
+    def __init__(self, qualified_name):
+        super().__init__('SCALE', qualified_name)
+        self.key_signature = fetch_key_signature(self.root, self.quality)
 
     def __getitem__(self, degree):
         """
         :param degree: a string representing the scale degree, such as TONIC, MEDIANT, etc. degree should be all caps.
         :return: a Note object representing the scale degree.
         """
-        if self._quality != 'MAJOR' and 'MINOR' not in self._quality:
+        if self.quality != 'MAJOR' and 'MINOR' not in self.quality:
             raise InvalidDegreeError("Only major and minor scales are subscriptable")
 
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,
@@ -81,18 +76,30 @@ class Scale:
 
         try:
             degree_number = degree_names[degree]
-            return self._notes[degree_number]
+            return self.notes[degree_number]
         except KeyError:
             raise InvalidDegreeError('Invalid degree name: %s' % degree)
 
     def __contains__(self, note):
-        return note in self._notes
+        return note in self.notes
 
     def ascend(self):
         """
         :return: a list of strings representing the qualified names of each note in this scale, in ascending order.
         """
-        return tuple([note for note in self._notes])
+        return tuple([note for note in self.notes])
+
+    def validate_root(self, unpacked_name):
+        if 'MINOR' in unpacked_name['QUALITY']:
+            valid_tonics = VALID_SCALE_NAMES['MINOR']
+        else:
+            valid_tonics = VALID_SCALE_NAMES['MAJOR']
+
+        if unpacked_name['ROOT'] not in valid_tonics:
+            raise InvalidTonicError(
+                "Invalid tonic: %s. It is possible that this tonic is a valid note name but that "
+                "building the desired scale from this note would result in a scale with an invalid "
+                "key signature." % unpacked_name['ROOT'])
 
 
 class InvalidTonicError(Exception):
@@ -119,16 +126,3 @@ def fetch_key_signature(tonic, quality):
     qualified_tonic = tonic + (' MINOR' if 'MINOR' in quality else ' MAJOR')
     key_signature_number = KEY_SIGNATURE_NUMBERS[qualified_tonic]
     return KEY_SIGNATURES[key_signature_number]
-
-
-# TODO: possibly move this to interval_utils
-def validate_tonic(unpacked_scale_name):
-    if 'MINOR' in unpacked_scale_name['QUALITY']:
-        valid_tonics = VALID_SCALE_NAMES['MINOR']
-    else:
-        valid_tonics = VALID_SCALE_NAMES['MAJOR']
-
-    if unpacked_scale_name['ROOT'] not in valid_tonics:
-        raise InvalidTonicError("Invalid tonic: %s. It is possible that this tonic is a valid note name but that "
-                                "building the desired scale from this note would result in a scale with an invalid "
-                                "key signature." % unpacked_scale_name['ROOT'])
