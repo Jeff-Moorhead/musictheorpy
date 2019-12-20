@@ -35,30 +35,14 @@ INTERVAL_MAP = {'P0': 'PERFECT 0', 'd2': 'DIMINISHED 2', 'm2': 'MINOR 2', 'A0': 
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers()
-
-    intervalparser = subparsers.add_parser('intervals')
-    intervalparser.add_argument('startingnote')
-    intervalparser.add_argument('interval')
-    intervalparser.add_argument('-d', '--descend', action='store_true')
-    intervalparser.set_defaults(func=intervalsmain)
-
-    scaleparser = subparsers.add_parser('scales')
-    scaleparser.add_argument('tonic')
-    scaleparser.add_argument('-m', '--minor')
-    scaleparser.add_argument('-d', '--degree')
-    scaleparser.add_argument('-n', '--number')
-    scaleparser.add_argument('-r', '--relative', action='store_true')
-    scaleparser.add_argument('-p', '--parallel', action='store_true')
-    scaleparser.set_defaults(func=scalesmain)
-
+    parser = get_parser()
     args = parser.parse_args()
     args.func(args)
 
 
 def intervalsmain(args):
-    startingnote, interval, descend = unpack_arguments(args)
+    unpacker = get_unpacker('intervals')
+    startingnote, interval, descend = unpacker(args)
 
     if startingnote is None:
         print(invalid_note_help)
@@ -89,18 +73,11 @@ def intervalsmain(args):
 
 
 def scalesmain(args):
-    pass
+    unpacker = get_unpacker('scales')
 
 
-def unpack_arguments(args):
-    note = get_note_obj(args.startingnote)
-    interval = map_interval(args.interval)
-
-    if args.descend:
-        descend = args.descend
-        return note, interval, descend
-
-    return note, interval, False
+def chordsmain(args):
+    unpacker = get_unpacker('chords')
 
 
 def get_note_obj(notename):
@@ -117,6 +94,91 @@ def map_interval(interval):
         return INTERVAL_MAP[interval]
     except KeyError:
         return None
+
+
+def get_unpacker(unpackertype):
+    if unpackertype == 'intervals':
+        return unpack_interval_arguments
+    elif unpackertype == 'scales':
+        return unpack_scale_arguments
+    elif unpackertype == 'chords':
+        return unpack_chord_arguments
+    else:
+        raise ValueError('That is not a valid argument unpacker.')
+
+
+def unpack_interval_arguments(args):
+    note = get_note_obj(args.startingnote)
+    interval = map_interval(args.interval)
+
+    if args.descend:
+        descend = args.descend
+        return note, interval, descend
+
+    return note, interval, False
+
+
+def unpack_scale_arguments(args):
+    currentargs = []
+    note = get_note_obj(args.tonic)
+    currentargs.append(note)
+
+    if args.minor:
+        currentargs.append(args.minor)
+    else:
+        currentargs.append(None)
+    if args.degree:
+        currentargs.append(args.degree)
+    else:
+        currentargs.append(None)
+    if args.number:
+        currentargs.append(args.number)
+    else:
+        currentargs.append(None)
+    if args.relative:
+        currentargs.append(True)
+    else:
+        currentargs.append(False)
+    if args.parallel:
+        currentargs.append(True)
+    else:
+        currentargs.append(False)
+
+    return currentargs  # return value should be unpacked into individual variables
+
+
+def unpack_chord_arguments(args):
+    pass
+
+
+def get_parser():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+
+    intervalparser = subparsers.add_parser('intervals')
+    intervalparser.add_argument('startingnote')
+    intervalparser.add_argument('interval')
+    intervalparser.add_argument('-d', '--descend', action='store_true')
+    intervalparser.set_defaults(func=intervalsmain)
+
+    scaleparser = subparsers.add_parser('scales')
+    scaleparser.add_argument('tonic')
+    scaleparser.add_argument('-m', '--minor')
+    scaleparser.add_argument('-d', '--degree')
+    scaleparser.add_argument('-n', '--number')
+    scaleparser.add_argument('-r', '--relative', action='store_true')
+    scaleparser.add_argument('-p', '--parallel', action='store_true')
+    scaleparser.set_defaults(func=scalesmain)
+
+    chordparser = subparsers.add_parser('chords')
+    chordparser.add_argument('root')
+    chordparser.add_argument('-m', '--minor')
+    chordparser.add_argument('-d', '--degree')
+    chordparser.add_argument('-r', '--relative')
+    chordparser.add_argument('-p', '--parallel')
+    chordparser.set_defaults(func=chordsmain)
+
+    return parser
 
 
 if __name__ == '__main__':

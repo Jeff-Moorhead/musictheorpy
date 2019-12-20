@@ -11,7 +11,7 @@ class TestPyMusic(TestCase):
         namespace_ascending.interval = 'M3'
         namespace_ascending.descend = False
 
-        note, interval, descend = pymusic.unpack_arguments(namespace_ascending)
+        note, interval, descend = pymusic.unpack_interval_arguments(namespace_ascending)
         self.assertTrue(note is not None)
         self.assertEqual(interval, 'MAJOR 3')
         self.assertFalse(descend)
@@ -24,5 +24,5 @@ class TestPyMusic(TestCase):
         namespace_invalid.interval = 'bar'
         namespace_invalid.descend = False
 
-        invalid_note, invalid_interval, descend = pymusic.unpack_arguments(namespace_invalid)
+        invalid_note, invalid_interval, descend = pymusic.unpack_interval_arguments(namespace_invalid)
         self.assertTrue(invalid_note is None and invalid_interval is None)
