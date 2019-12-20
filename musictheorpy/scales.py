@@ -19,7 +19,9 @@ Exceptions
    Raised when accessing an invalid scale degree.
 
 """
-import musictheorpy.interval_utils as int_utils
+from . import interval_utils
+from .notegroups import NoteGroup
+
 
 VALID_SCALE_NAMES = {'MAJOR': ['A', 'B', 'C', 'D', 'E', 'F', 'G',
                                'C#', 'F#',
@@ -46,7 +48,7 @@ KEY_SIGNATURES = {0: [], 1: SHARPS[:1], 2: SHARPS[:2], 3: SHARPS[:3], 4: SHARPS[
                   -6: FLATS[:6], -7: FLATS[:7]}
 
 
-class Scale(int_utils.NoteGroup):
+class Scale(NoteGroup):
     """
     Represents a collection of notes. Scales are built from a series of whole and half steps and have a key signature
     and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name. Valid tonics are
