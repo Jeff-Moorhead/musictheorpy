@@ -1,8 +1,8 @@
-import abc
 from . import interval_utils
 
 
-class NoteGroup(abc.ABC):
+class NoteGroup:
+    """ Not intended for instantiation. Subclass only. """
     def __init__(self, grouptype, qualified_name):
         """ Group type is the type (e.g. SCALE, CHORD) in all caps """
         builder = get_group_builder(grouptype)  # get the function that builds the group
@@ -12,12 +12,10 @@ class NoteGroup(abc.ABC):
         self.quality = unpacked_name['QUALITY']
         self.notes = builder(self.root, self.quality)
 
-    @abc.abstractmethod
     def validate_root(self, unpacked_name):
-        """ Needed to validate scale tonic """
+        """ Needed to validate the root of certain subclasses """
         pass
 
-    @abc.abstractmethod
     def __getitem__(self, item):
         pass
 
@@ -53,3 +51,11 @@ def unpack_group_name(groupname):
     root = split_group[0]
     quality = split_group[1]
     return {'ROOT': root, 'QUALITY': quality}
+
+
+class InvalidDegreeError(Exception):
+    """
+    Raised when an attempting to fetch an invalid scale degree name. Valid scale degree names are
+    tonic, supertonic, mediant, subdominant, dominant, submediant, and leading tone.
+    """
+    pass

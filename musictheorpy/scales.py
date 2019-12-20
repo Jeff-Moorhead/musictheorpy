@@ -19,8 +19,7 @@ Exceptions
    Raised when accessing an invalid scale degree.
 
 """
-from . import interval_utils
-from .notegroups import NoteGroup
+from .notegroups import NoteGroup, InvalidDegreeError
 
 
 VALID_SCALE_NAMES = {'MAJOR': ['A', 'B', 'C', 'D', 'E', 'F', 'G',
@@ -111,14 +110,6 @@ class InvalidTonicError(Exception):
     tonic name (that is an English letter between A and G), but for whom the passed quality would result in a scale that
     includes invalid note names in its key signature, such as double sharps. An example of this situation is a G# Major
     scale.
-    """
-    pass
-
-
-class InvalidDegreeError(Exception):
-    """
-    Raised when an attempting to fetch an invalid scale degree name. Valid scale degree names are
-    tonic, supertonic, mediant, subdominant, dominant, submediant, and leading tone.
     """
     pass
 
