@@ -7,7 +7,7 @@ import sys
 import argparse
 
 import musictheorpy.notes as notes
-
+import musictheorpy.scales as scales
 
 invalid_note_help = "You have entered an invalid note name. Valid notes are uppercase English letters A through G\n"\
                     "possibly followed by a qualifier. Valid qualifiers are #, ##, b, and bb. No qualifier represents\n"\
@@ -74,6 +74,24 @@ def intervalsmain(args):
 
 def scalesmain(args):
     unpacker = get_unpacker('scales')
+    tonic, minor, degree, number, relative, parallel = unpacker(args)
+
+    if tonic is None:
+        print(invalid_note_help)
+        sys.exit()
+
+    if minor:
+        scale = get_minor_scale(tonic, minor.upper())
+    else:
+        qualified_scalename = f"{tonic} MAJOR"
+        scale = get_scale_obj(qualified_scalename)
+
+    if scale is None:
+        print("Invalid tonic or minor quality.")
+        sys.exit()
+
+    if not any([minor, degree, number, relative, parallel]):
+        print(*scale.notes)
 
 
 def chordsmain(args):
@@ -82,11 +100,24 @@ def chordsmain(args):
 
 def get_note_obj(notename):
     try:
-        note = notes.Note(notename)
+        return notes.Note(notename)
     except notes.NoteNameError:
         return None
 
-    return note
+
+def get_minor_scale(tonic, minor):
+    if minor.upper() not in ['NATURAL', 'HARMONIC', 'MELODIC']:
+        return None
+
+    qualified_scalename = f"{tonic} {minor.upper()} MINOR"
+    return get_scale_obj(qualified_scalename)
+
+
+def get_scale_obj(scalename):
+    try:
+        return scales.Scale(scalename)
+    except scales.InvalidTonicError:
+        return None
 
 
 def map_interval(interval):
@@ -127,18 +158,22 @@ def unpack_scale_arguments(args):
         currentargs.append(args.minor)
     else:
         currentargs.append(None)
+
     if args.degree:
         currentargs.append(args.degree)
     else:
         currentargs.append(None)
+
     if args.number:
         currentargs.append(args.number)
     else:
         currentargs.append(None)
+
     if args.relative:
         currentargs.append(True)
     else:
         currentargs.append(False)
+
     if args.parallel:
         currentargs.append(True)
     else:

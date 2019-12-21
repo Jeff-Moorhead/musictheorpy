@@ -33,9 +33,6 @@ class TestScale(unittest.TestCase):
         self.assertTrue('Bb' in self.d_harm_minor)
         self.assertFalse('F#' in self.d_harm_minor)
 
-    def test_ascend(self):
-        self.assertEqual(self.c_scale.ascend(), ('C', 'D', 'E', 'F', 'G', 'A', 'B'))
-
     def test_invalid_degree(self):
         with self.assertRaises(InvalidDegreeError):
             bad_degree = self.c_scale['foobar']

@@ -24,9 +24,6 @@ class NoteGroup(abc.ABC):
     def __contains__(self, note):
         return note in self.notes
 
-    def ascend(self):
-        return tuple([note for note in self.notes])
-
 
 def get_group_builder(grouptype):
     if grouptype == 'SCALE':
