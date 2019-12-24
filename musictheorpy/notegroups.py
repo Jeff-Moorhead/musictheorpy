@@ -1,5 +1,5 @@
 import abc
-from . import interval_utils, notes
+from . import interval_utils
 
 
 class IntervalBuilder:
@@ -29,12 +29,12 @@ class IntervalBuilder:
         """
         number_of_steps = self.interval_steps[qualified_interval_name]
         interval_top_note = interval_utils.INTERVAL_NOTE_PAIRS[self.rootnote][number_of_steps]
-        return notes.Note(interval_top_note)
+        return interval_top_note
 
     def descend_interval_from_name(self, qualified_interval_name):
         number_of_steps = self.interval_steps[qualified_interval_name]
         interval_bottom_note = fetch_interval_bottom_note(self.rootnote, number_of_steps)
-        return notes.Note(interval_bottom_note)
+        return interval_bottom_note
 
 
 def fetch_interval_bottom_note(qualified_note_name, steps):
