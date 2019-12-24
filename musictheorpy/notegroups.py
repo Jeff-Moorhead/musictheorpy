@@ -18,7 +18,7 @@ class IntervalBuilder:
                                'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9,
                                'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10,
                                'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11,
-                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'DIMINISHED 9': 100
+                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0
                                }
 
     def ascend_interval_from_name(self, qualified_interval_name):
