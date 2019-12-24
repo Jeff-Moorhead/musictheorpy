@@ -1,5 +1,5 @@
 import unittest
-from musictheorpy.scales import Scale, InvalidDegreeError, InvalidTonicError
+from ..scales import Scale, InvalidDegreeError, InvalidTonicError
 
 
 class TestScale(unittest.TestCase):

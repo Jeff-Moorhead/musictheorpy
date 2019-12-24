@@ -16,8 +16,8 @@ Exceptions
 - NoteNameError
    Raised when a note name is not valid.
 """
-from musictheorpy.interval_utils import InvalidIntervalError
-from musictheorpy.notegroups import IntervalBuilder
+from .interval_utils import InvalidIntervalError
+from .notegroups import IntervalBuilder
 
 VALID_NOTES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']

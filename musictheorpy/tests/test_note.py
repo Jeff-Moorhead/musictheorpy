@@ -1,7 +1,7 @@
 import unittest
-from musictheorpy.notes import Note, NoteNameError, InvalidIntervalError
-from musictheorpy.interval_utils import INTERVAL_NOTE_PAIRS
-from musictheorpy.notegroups import IntervalBuilder
+from ..notes import Note, NoteNameError, InvalidIntervalError
+from ..interval_utils import INTERVAL_NOTE_PAIRS
+from ..notegroups import IntervalBuilder
 
 
 class TestNote(unittest.TestCase):
