@@ -1,24 +1,3 @@
-"""
-=========
-scales.py
-=========
-
-Provides tools to perform calculations related to scales, such as determining key signatures, and building scales of
-different qualities.
-
-Classes
--------
--Scale
-   Represents a scale and facilitates key signature and note calculations.
-
-Exceptions
-----------
-- InvalidTonicError
-   Raised when a tonic results in an invalid key signature.
--InvalidDegreeError
-   Raised when accessing an invalid scale degree.
-
-"""
 from .notegroups import NoteGroup, InvalidDegreeError
 
 
@@ -53,13 +32,8 @@ class Scale(NoteGroup):
     and tonic. Each note in a scale is identified either by a number (1 through 7) or a degree name. Valid tonics are
     English letters A through G, and valid qualities are MAJOR, HARMONIC MINOR, MELODIC MINOR, and NATURAL MINOR. An
     InvalidTonicError is raised if the scale name has a key signature involving double sharps or double flats.
-
-    Attributes
-    ----------
-    key_signature
-       A list of note names indicating the sharp or flat notes for the given scale. An empty list represents all
-       natural notes.
     """
+
     def __init__(self, qualified_name):
         super().__init__('SCALE', qualified_name)
         self.key_signature = fetch_key_signature(self.root, self.quality)

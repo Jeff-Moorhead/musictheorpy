@@ -1,6 +1,3 @@
-"""
-Classes for triads and chords.
-"""
 from .notegroups import NoteGroup, InvalidDegreeError
 
 

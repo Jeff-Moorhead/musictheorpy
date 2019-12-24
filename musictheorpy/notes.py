@@ -1,21 +1,3 @@
-"""
-========
-notes.py
-========
-
-Provides an interface for performing calculations related to individual notes, such as ascending and descending
-intervals.
-
-Classes
--------
-- Note
-   Represents an individual note.
-
-Exceptions
-----------
-- NoteNameError
-   Raised when a note name is not valid.
-"""
 from .interval_utils import InvalidIntervalError
 from .notegroups import IntervalBuilder
 
@@ -25,15 +7,6 @@ VALID_QUALIFIED_NAMES = [name + qualifier for name in VALID_NOTES for qualifier 
 
 
 class Note:
-    """
-    Represents individual notes. Note names are comprised of a capital English letter A through G and an optional
-    qualifier.
-
-    Public Attributes
-    -----------------
-    qualified_name
-       Note name followed by an optional qualifier.
-    """
     def __init__(self, qualified_name):
         """
         :param qualified_name: The qualified name of the note. The note's qualified name is the capitalized note
