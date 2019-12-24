@@ -8,6 +8,7 @@ import argparse
 
 import musictheorpy.notes as notes
 import musictheorpy.scales as scales
+from . import scalesmain
 
 invalid_note_help = "You have entered an invalid note name. Valid notes are uppercase English letters A through G\n"\
                     "possibly followed by a qualifier. Valid qualifiers are #, ##, b, and bb. No qualifier represents\n"\
@@ -98,27 +99,6 @@ def chordsmain(args):
     unpacker = get_unpacker('chords')
 
 
-def get_note_obj(notename):
-    try:
-        return notes.Note(notename)
-    except notes.NoteNameError:
-        return None
-
-
-def get_minor_scale(tonic, minor):
-    if minor.upper() not in ['NATURAL', 'HARMONIC', 'MELODIC']:
-        return None
-
-    qualified_scalename = f"{tonic} {minor.upper()} MINOR"
-    return get_scale_obj(qualified_scalename)
-
-
-def get_scale_obj(scalename):
-    try:
-        return scales.Scale(scalename)
-    except scales.InvalidTonicError:
-        return None
-
 
 def map_interval(interval):
     try:
@@ -131,7 +111,7 @@ def get_unpacker(unpackertype):
     if unpackertype == 'intervals':
         return unpack_interval_arguments
     elif unpackertype == 'scales':
-        return unpack_scale_arguments
+        return scalesmain.unpack_scale_arguments
     elif unpackertype == 'chords':
         return unpack_chord_arguments
     else:
@@ -147,39 +127,6 @@ def unpack_interval_arguments(args):
         return note, interval, descend
 
     return note, interval, False
-
-
-def unpack_scale_arguments(args):
-    currentargs = []
-    note = get_note_obj(args.tonic)
-    currentargs.append(note)
-
-    if args.minor:
-        currentargs.append(args.minor)
-    else:
-        currentargs.append(None)
-
-    if args.degree:
-        currentargs.append(args.degree)
-    else:
-        currentargs.append(None)
-
-    if args.number:
-        currentargs.append(args.number)
-    else:
-        currentargs.append(None)
-
-    if args.relative:
-        currentargs.append(True)
-    else:
-        currentargs.append(False)
-
-    if args.parallel:
-        currentargs.append(True)
-    else:
-        currentargs.append(False)
-
-    return currentargs  # return value should be unpacked into individual variables
 
 
 def unpack_chord_arguments(args):

@@ -1,6 +1,7 @@
 import unittest
 from musictheorpy.notes import Note, NoteNameError, InvalidIntervalError
-from musictheorpy.interval_utils import INTERVAL_NOTE_PAIRS, INTERVAL_STEPS
+from musictheorpy.interval_utils import INTERVAL_NOTE_PAIRS
+from musictheorpy.notegroups import IntervalBuilder
 
 
 class TestNote(unittest.TestCase):
@@ -8,9 +9,10 @@ class TestNote(unittest.TestCase):
         self.a = Note('A')
         self.c = Note('C')
         self.a_flat = Note('Ab')
+        self.builder = IntervalBuilder('A')
 
     def test_ascend_interval(self):
-        for interval, steps in INTERVAL_STEPS.items():
+        for interval, steps in self.builder.interval_steps.items():
             top_note = INTERVAL_NOTE_PAIRS['A'][steps]
             self.assertEqual(self.a.ascend_interval(interval), Note(top_note))
 

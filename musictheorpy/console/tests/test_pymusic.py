@@ -1,9 +1,10 @@
-from unittest import TestCase, mock
+from unittest import TestCase, mock, skip
 
 from .. import pymusic
 
 
 class TestPyMusic(TestCase):
+    @skip('Not implementing yet')
     @mock.patch('argparse.Namespace')
     def test_unpack_args(self, namespace_mock):
         namespace_ascending = namespace_mock
@@ -16,6 +17,7 @@ class TestPyMusic(TestCase):
         self.assertEqual(interval, 'MAJOR 3')
         self.assertFalse(descend)
 
+    @skip('Not implementing yet')
     @mock.patch('argparse.Namespace')
     def test_invalid_args(self, namespace_mock):
         # tests pymusic.unpack args, and consequently tests pymusic.get_note_obj and pymusic.map_interval

@@ -16,7 +16,8 @@ Exceptions
 - NoteNameError
    Raised when a note name is not valid.
 """
-from musictheorpy.interval_utils import INTERVAL_NOTE_PAIRS, INTERVAL_STEPS, InvalidIntervalError
+from musictheorpy.interval_utils import InvalidIntervalError
+from musictheorpy.notegroups import IntervalBuilder
 
 VALID_NOTES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']
@@ -43,6 +44,7 @@ class Note:
         it's qualified name should not be modified.
         """
         self.qualified_name = qualified_name
+        self.interval_builder = IntervalBuilder(self.qualified_name)
 
     @property
     def qualified_name(self):
@@ -71,9 +73,7 @@ class Note:
         a valid note, such as F###, and InvalidIntervalError is raised.
         """
         try:
-            number_of_steps = INTERVAL_STEPS[qualified_interval_name]
-            interval_top_note = INTERVAL_NOTE_PAIRS[self._qualified_name][number_of_steps]
-            return Note(interval_top_note)
+            return self.interval_builder.ascend_interval_from_name(qualified_interval_name)
         except NoteNameError:
             raise InvalidIntervalError("Ascending a %s from %s results in an invalid note." % (qualified_interval_name,
                                                                                                self._qualified_name))
@@ -85,9 +85,7 @@ class Note:
         a valid note, such as F###, an InvalidInvervalError is raised.
         """
         try:
-            number_of_steps = INTERVAL_STEPS[qualified_interval_name]
-            interval_bottom_note = fetch_interval_bottom_note(self._qualified_name, number_of_steps)
-            return Note(interval_bottom_note)
+            return self.interval_builder.descend_interval_from_name(qualified_interval_name)
         except NoteNameError:
             raise InvalidIntervalError("Descending a %s from %s results in an invalid note." % (qualified_interval_name,
                                                                                                 self._qualified_name))
@@ -98,17 +96,3 @@ class NoteNameError(Exception):
     Raised when attempting to create a Note object with a qualified note name that is not valid.
     """
     pass
-
-
-def fetch_interval_bottom_note(qualified_note_name, steps):
-    if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
-        if steps % 10 == 6:  # augmented 4 is encoded as 106. Its compliment is a diminished 5, or six steps.
-            steps_compliment = 6
-        else:
-            steps_compliment = 12 - (steps % 100) + 100
-    else:
-        if steps == 6:  # diminished 5 compliment is an augmented 4, which is encoded as 106.
-            steps_compliment = 106
-        else:
-            steps_compliment = 12 - steps
-    return INTERVAL_NOTE_PAIRS[qualified_note_name][steps_compliment]

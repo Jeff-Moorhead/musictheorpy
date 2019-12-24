@@ -1,27 +1,18 @@
 """
 This module holds constants and classes that facilitate the processing of intervals.
 """
-import abc
-
-INTERVAL_STEPS = {'PERFECT 0': 0, 'DIMINISHED 2': 100,
-                  'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1,
-                  'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2,
-                  'MINOR 3': 3, 'AUGMENTED 2': 103, 'MINOR 10': 3,
-                  'MAJOR 3': 4, 'DIMINISHED 4': 104, 'MAJOR 10': 4,
-                  'PERFECT 4': 5, 'AUGMENTED 3': 105, 'PERFECT 11': 5,
-                  'DIMINISHED 5': 6, 'AUGMENTED 4': 106, 'DIMINISHED 12': 6,
-                  'PERFECT 5': 7, 'DIMINISHED 6': 107, 'PERFECT 12': 7,
-                  'MINOR 6': 8, 'AUGMENTED 5': 108, 'MINOR 13': 8,
-                  'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9,
-                  'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10,
-                  'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11,
-                  'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'DIMINISHED 9': 100
-                  }
 
 SCALE_INTERVALS = {'MAJOR': [0, 2, 4, 5, 7, 9, 11],
                    'NATURAL MINOR': [0, 2, 3, 5, 7, 8, 10],
                    'HARMONIC MINOR': [0, 2, 3, 5, 7, 8, 11],
                    'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
+                   'IONIAN': [0, 2, 4, 5, 7, 9, 11],
+                   'DORIAN': [0, 2, 3, 5, 7, 9, 10],
+                   'PHRYGIAN': [0, 1, 3, 5, 7, 8, 10],
+                   'LYDIAN': [0, 2, 4, 6, 7, 9, 11],
+                   'MIXOLYDIAN': [0, 2, 4, 5, 7, 9, 10],
+                   'AEOLIAN': [0, 2, 3, 5, 7, 8, 10],
+                   'LOCRIAN': [0, 1, 3, 5, 6, 8, 10]
                    }
 
 CHORD_INTERVALS = {'MAJOR': [0, 4, 7],
@@ -31,7 +22,23 @@ CHORD_INTERVALS = {'MAJOR': [0, 4, 7],
                    'DOMINANT 7': [0, 4, 7, 10],
                    'MAJOR 7': [0, 4, 7, 11],
                    'MINOR 7': [0, 3, 7, 10],
-                   }  # TODO: implement chords (sevenths, ninths, elevenths, thirteenths)
+                   'MINOR 7b5': [0, 3, 6, 10],
+                   'DOMINANT 9': [0, 4, 7, 10, 2],
+                   'DOMINANT b9': [0, 4, 7, 10, 1],
+                   'DOMINANT #9': [0, 4, 7, 10, 103],
+                   'MAJOR 9': [0, 4, 7, 11, 2],
+                   'MINOR 9': [0, 3, 7, 10, 2],
+                   'DOMINANT 11': [0, 4, 7, 10, 5],
+                   'DOMINANT b11': [0, 4, 7, 10, 104],
+                   'DOMINANT #11': [0, 4, 7, 10, 106],
+                   'MAJOR 11': [0, 4, 7, 11, 5],
+                   'MINOR 11': [0, 3, 7, 10, 5],
+                   'DOMINANT 13': [0, 4, 7, 10, 9],
+                   'DOMINANT b13': [0, 4, 7, 10, 8],
+                   'DOMINANT #13': [0, 4, 7, 10, 110],
+                   'MAJOR 13': [0, 4, 7, 11, 9],
+                   'MINOR 13': [0, 3, 7, 10, 9]
+                   }
 
 INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6: 'Eb',
                              7: 'E', 8: 'F', 9: 'F#', 10: 'G', 11: 'G#', 12: 'A',
