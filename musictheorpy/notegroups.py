@@ -2,7 +2,7 @@ import abc
 from . import interval_utils
 
 
-class IntervalBuilder:
+class _IntervalBuilder:
     def __init__(self, rootnote, intervalgroup=None):
         self.intervalgroup = intervalgroup
         self.rootnote = rootnote
@@ -33,11 +33,11 @@ class IntervalBuilder:
 
     def descend_interval_from_name(self, qualified_interval_name):
         number_of_steps = self.interval_steps[qualified_interval_name]
-        interval_bottom_note = fetch_interval_bottom_note(self.rootnote, number_of_steps)
+        interval_bottom_note = _fetch_interval_bottom_note(self.rootnote, number_of_steps)
         return interval_bottom_note
 
 
-def fetch_interval_bottom_note(qualified_note_name, steps):
+def _fetch_interval_bottom_note(qualified_note_name, steps):
     if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
         if steps % 10 == 6:  # augmented 4 is encoded as 106. Its compliment is a diminished 5, or six steps.
             steps_compliment = 6
@@ -51,18 +51,18 @@ def fetch_interval_bottom_note(qualified_note_name, steps):
     return interval_utils.INTERVAL_NOTE_PAIRS[qualified_note_name][steps_compliment]
 
 
-class NoteGroup(abc.ABC):
+class _NoteGroup(abc.ABC):
     @abc.abstractmethod
     def __init__(self, grouptype, qualified_name):
         """ Group type is the type (e.g. SCALE, CHORD) in all caps """
-        builder = get_group_builder(grouptype)  # get the function that builds the group
-        unpacked_name = unpack_group_name(qualified_name)
-        self.validate_root(unpacked_name)
+        builder = _get_group_builder(grouptype)  # get the function that builds the group
+        unpacked_name = _unpack_group_name(qualified_name)
+        self._validate_root(unpacked_name)
         self.root = unpacked_name['ROOT']
         self.quality = unpacked_name['QUALITY']
         self.notes = builder(self.root, self.quality)
 
-    def validate_root(self, unpacked_name):
+    def _validate_root(self, unpacked_name):
         """ Needed to validate the root of certain subclasses """
         pass
 
@@ -74,27 +74,63 @@ class NoteGroup(abc.ABC):
         return note in self.notes
 
 
-def get_group_builder(grouptype):
+def _get_group_builder(grouptype):
     if grouptype == 'SCALE':
-        return build_scale
+        return _build_scale
     elif grouptype == 'CHORD':
-        return build_chord
+        return _build_chord
 
 
-def build_scale(root, quality):
-    return build_group(root, interval_utils.SCALE_INTERVALS[quality])
+def _build_scale(root, quality):
+    scale_intervals = {'MAJOR': [0, 2, 4, 5, 7, 9, 11],
+                       'NATURAL MINOR': [0, 2, 3, 5, 7, 8, 10],
+                       'HARMONIC MINOR': [0, 2, 3, 5, 7, 8, 11],
+                       'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
+                       'IONIAN': [0, 2, 4, 5, 7, 9, 11],
+                       'DORIAN': [0, 2, 3, 5, 7, 9, 10],
+                       'PHRYGIAN': [0, 1, 3, 5, 7, 8, 10],
+                       'LYDIAN': [0, 2, 4, 6, 7, 9, 11],
+                       'MIXOLYDIAN': [0, 2, 4, 5, 7, 9, 10],
+                       'AEOLIAN': [0, 2, 3, 5, 7, 8, 10],
+                       'LOCRIAN': [0, 1, 3, 5, 6, 8, 10]
+                       }
+    return _build_group(root, scale_intervals[quality])
 
 
-def build_chord(root, quality):
-    return build_group(root, interval_utils.CHORD_INTERVALS[quality])
+def _build_chord(root, quality):
+    chord_intervals = {'MAJOR': [0, 4, 7],
+                       'MINOR': [0, 3, 7],
+                       'DIMINISHED': [0, 3, 6],
+                       'AUGMENTED': [0, 4, 108],
+                       'DOMINANT 7': [0, 4, 7, 10],
+                       'MAJOR 7': [0, 4, 7, 11],
+                       'MINOR 7': [0, 3, 7, 10],
+                       'MINOR 7b5': [0, 3, 6, 10],
+                       'DOMINANT 9': [0, 4, 7, 10, 2],
+                       'DOMINANT b9': [0, 4, 7, 10, 1],
+                       'DOMINANT #9': [0, 4, 7, 10, 103],
+                       'MAJOR 9': [0, 4, 7, 11, 2],
+                       'MINOR 9': [0, 3, 7, 10, 2],
+                       'DOMINANT 11': [0, 4, 7, 10, 5],
+                       'DOMINANT b11': [0, 4, 7, 10, 104],
+                       'DOMINANT #11': [0, 4, 7, 10, 106],
+                       'MAJOR 11': [0, 4, 7, 11, 5],
+                       'MINOR 11': [0, 3, 7, 10, 5],
+                       'DOMINANT 13': [0, 4, 7, 10, 9],
+                       'DOMINANT b13': [0, 4, 7, 10, 8],
+                       'DOMINANT #13': [0, 4, 7, 10, 110],
+                       'MAJOR 13': [0, 4, 7, 11, 9],
+                       'MINOR 13': [0, 3, 7, 10, 9]
+                       }
+    return _build_group(root, chord_intervals[quality])
 
 
-def build_group(root, intervals):
+def _build_group(root, intervals):
     # build a group of notes (scale, triad, chord) from root using the list of intervals.
     return tuple([interval_utils.INTERVAL_NOTE_PAIRS[root][interval] for interval in intervals])
 
 
-def unpack_group_name(groupname):
+def _unpack_group_name(groupname):
     split_group = groupname.split(' ', 1)
     root = split_group[0]
     quality = split_group[1]

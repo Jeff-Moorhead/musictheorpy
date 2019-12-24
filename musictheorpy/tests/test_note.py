@@ -1,7 +1,7 @@
 import unittest
 from ..notes import Note, NoteNameError, InvalidIntervalError
 from ..interval_utils import INTERVAL_NOTE_PAIRS
-from ..notegroups import IntervalBuilder
+from ..notegroups import _IntervalBuilder
 
 
 class TestNote(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestNote(unittest.TestCase):
         self.a = Note('A')
         self.c = Note('C')
         self.a_flat = Note('Ab')
-        self.builder = IntervalBuilder('A')
+        self.builder = _IntervalBuilder('A')
 
     def test_ascend_interval(self):
         for interval, steps in self.builder.interval_steps.items():

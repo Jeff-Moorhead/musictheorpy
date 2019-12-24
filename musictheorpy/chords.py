@@ -1,7 +1,7 @@
-from .notegroups import NoteGroup, InvalidDegreeError
+from .notegroups import _NoteGroup, InvalidDegreeError
 
 
-class Chord(NoteGroup):
+class Chord(_NoteGroup):
     def __init__(self, qualified_name):
         """
         MAJOR, MINOR, DIMINISHED, and AUGMENTED qualities are triads. Anything with a

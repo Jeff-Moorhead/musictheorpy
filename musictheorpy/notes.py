@@ -1,5 +1,5 @@
 from .interval_utils import InvalidIntervalError
-from .notegroups import IntervalBuilder
+from .notegroups import _IntervalBuilder
 
 VALID_NOTES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']
@@ -17,7 +17,7 @@ class Note:
         it's qualified name should not be modified.
         """
         self.qualified_name = qualified_name
-        self.interval_builder = IntervalBuilder(self.qualified_name)
+        self._interval_builder = _IntervalBuilder(self.qualified_name)
 
     @property
     def qualified_name(self):
@@ -46,7 +46,7 @@ class Note:
         a valid note, such as F###, and InvalidIntervalError is raised.
         """
         try:
-            return Note(self.interval_builder.ascend_interval_from_name(qualified_interval_name))
+            return Note(self._interval_builder.ascend_interval_from_name(qualified_interval_name))
         except NoteNameError:
             raise InvalidIntervalError("Ascending a %s from %s results in an invalid note." % (qualified_interval_name,
                                                                                                self._qualified_name))
@@ -58,7 +58,7 @@ class Note:
         a valid note, such as F###, an InvalidInvervalError is raised.
         """
         try:
-            return Note(self.interval_builder.descend_interval_from_name(qualified_interval_name))
+            return Note(self._interval_builder.descend_interval_from_name(qualified_interval_name))
         except NoteNameError:
             raise InvalidIntervalError("Descending a %s from %s results in an invalid note." % (qualified_interval_name,
                                                                                                 self._qualified_name))
