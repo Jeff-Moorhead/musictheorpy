@@ -49,7 +49,7 @@ class Note:
             return Note(self._interval_builder.ascend_interval_from_name(qualified_interval_name))
         except NoteNameError:
             raise NoteNameError("Ascending a %s from %s results in an invalid note." % (qualified_interval_name,
-                                                                                        self._qualified_name))
+                                                                                        self._qualified_name)) from None
 
     def descend_interval(self, qualified_interval_name):
         """
@@ -61,7 +61,7 @@ class Note:
             return Note(self._interval_builder.descend_interval_from_name(qualified_interval_name))
         except NoteNameError:
             raise NoteNameError("Descending a %s from %s results in an invalid note." % (qualified_interval_name,
-                                                                                                self._qualified_name))
+                                                                                         self._qualified_name)) from None
 
 
 class NoteNameError(Exception):

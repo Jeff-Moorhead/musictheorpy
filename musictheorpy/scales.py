@@ -42,7 +42,7 @@ class Scale(_NoteGroup):
         :return: a Note object representing the scale degree.
         """
         if self.quality != 'MAJOR' and 'MINOR' not in self.quality:
-            raise InvalidDegreeError("Only major and minor scales are subscriptable")
+            raise InvalidDegreeError("Only major and minor scales are subscriptable") from None
 
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,
                         'DOMINANT': 4, 'SUBMEDIANT': 5, 'LEADING TONE': 6}
@@ -51,7 +51,7 @@ class Scale(_NoteGroup):
             degree_number = degree_names[degree]
             return self.notes[degree_number]
         except KeyError:
-            raise InvalidDegreeError('Invalid degree name: %s' % degree)
+            raise InvalidDegreeError('Invalid degree name: %s' % degree) from None
 
     def _validate_root(self, unpacked_name):
         if 'MINOR' in unpacked_name['QUALITY']:

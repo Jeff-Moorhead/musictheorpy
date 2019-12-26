@@ -18,7 +18,8 @@ class _IntervalBuilder:
                                'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9, 'DIMINISHED 14': 109,
                                'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10, 'AUGMENTED 13': 110,
                                'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11, 'DIMINISHED 15': 111,
-                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'AUGMENTED 14': 109
+                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'AUGMENTED 14': 109,
+                               'AUGMENTED 15': 101
                                }
 
     def ascend_interval_from_name(self, qualified_interval_name):
@@ -30,7 +31,7 @@ class _IntervalBuilder:
         try:
             number_of_steps = self.interval_steps[qualified_interval_name]
         except KeyError:
-            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name)
+            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
 
         interval_top_note = interval_utils.INTERVAL_NOTE_PAIRS[self.rootnote][number_of_steps]
         return interval_top_note
@@ -39,7 +40,7 @@ class _IntervalBuilder:
         try:
             number_of_steps = self.interval_steps[qualified_interval_name]
         except KeyError:
-            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name)
+            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
         interval_bottom_note = _fetch_interval_bottom_note(self.rootnote, number_of_steps)
         return interval_bottom_note
 
@@ -67,7 +68,10 @@ class _NoteGroup(abc.ABC):
         self._validate_root(unpacked_name)
         self.root = unpacked_name['ROOT']
         self.quality = unpacked_name['QUALITY']
-        self.notes = builder(self.root, self.quality)
+        try:
+            self.notes = builder(self.root, self.quality)
+        except KeyError:
+            raise InvalidQualityError("Quality %s is not valid" % self.quality) from None
 
     def _validate_root(self, unpacked_name):
         """ Needed to validate the root of certain subclasses """
@@ -93,13 +97,6 @@ def _build_scale(root, quality):
                        'NATURAL MINOR': [0, 2, 3, 5, 7, 8, 10],
                        'HARMONIC MINOR': [0, 2, 3, 5, 7, 8, 11],
                        'MELODIC MINOR': [0, 2, 3, 5, 7, 9, 11],
-                       'IONIAN': [0, 2, 4, 5, 7, 9, 11],
-                       'DORIAN': [0, 2, 3, 5, 7, 9, 10],
-                       'PHRYGIAN': [0, 1, 3, 5, 7, 8, 10],
-                       'LYDIAN': [0, 2, 4, 6, 7, 9, 11],
-                       'MIXOLYDIAN': [0, 2, 4, 5, 7, 9, 10],
-                       'AEOLIAN': [0, 2, 3, 5, 7, 8, 10],
-                       'LOCRIAN': [0, 1, 3, 5, 6, 8, 10]
                        }
     return _build_group(root, scale_intervals[quality])
 
@@ -139,8 +136,11 @@ def _build_group(root, intervals):
 
 def _unpack_group_name(groupname):
     split_group = groupname.split(' ', 1)
-    root = split_group[0]
-    quality = split_group[1]
+    try:
+        root = split_group[0]
+        quality = split_group[1]
+    except IndexError:
+        raise InvalidQualityError("No quality given.") from None
     return {'ROOT': root, 'QUALITY': quality}
 
 
@@ -148,5 +148,12 @@ class InvalidDegreeError(Exception):
     """
     Raised when an attempting to fetch an invalid scale degree name. Valid scale degree names are
     tonic, supertonic, mediant, subdominant, dominant, submediant, and leading tone.
+    """
+    pass
+
+
+class InvalidQualityError(Exception):
+    """
+    Raised when the quality of a scale or chord is invalid.
     """
     pass

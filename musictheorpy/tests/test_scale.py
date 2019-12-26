@@ -1,5 +1,6 @@
 import unittest
-from ..scales import Scale, InvalidDegreeError, InvalidTonicError
+from ..scales import Scale, InvalidTonicError
+from ..notegroups import InvalidQualityError, InvalidDegreeError
 
 
 class TestScale(unittest.TestCase):
@@ -40,3 +41,7 @@ class TestScale(unittest.TestCase):
     def test_invalid_tonic(self):
         with self.assertRaises(InvalidTonicError):
             z = Scale('Z MAJOR')
+
+    def test_raises_invalidquality(self):
+        with self.assertRaises(InvalidQualityError):
+            z = Scale('A Badqual')
