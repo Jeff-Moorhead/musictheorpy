@@ -6,19 +6,19 @@ class _IntervalBuilder:
     def __init__(self, rootnote, intervalgroup=None):
         self.intervalgroup = intervalgroup
         self.rootnote = rootnote
-        self.interval_steps = {'PERFECT 0': 0, 'DIMINISHED 2': 100,
-                               'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1,
-                               'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2,
-                               'MINOR 3': 3, 'AUGMENTED 2': 103, 'MINOR 10': 3,
-                               'MAJOR 3': 4, 'DIMINISHED 4': 104, 'MAJOR 10': 4,
-                               'PERFECT 4': 5, 'AUGMENTED 3': 105, 'PERFECT 11': 5,
-                               'DIMINISHED 5': 6, 'AUGMENTED 4': 106, 'DIMINISHED 12': 6,
-                               'PERFECT 5': 7, 'DIMINISHED 6': 107, 'PERFECT 12': 7,
-                               'MINOR 6': 8, 'AUGMENTED 5': 108, 'MINOR 13': 8,
-                               'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9,
-                               'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10,
-                               'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11,
-                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0
+        self.interval_steps = {'PERFECT 0': 0, 'DIMINISHED 2': 100, 'DIMINISHED 9': 100,
+                               'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1, 'AUGMENTED 8': 101,
+                               'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2, 'DIMINISHED 10': 102,
+                               'MINOR 3': 3, 'AUGMENTED 2': 103, 'MINOR 10': 3, 'AUGMENTED 9': 103,
+                               'MAJOR 3': 4, 'DIMINISHED 4': 104, 'MAJOR 10': 4, 'DIMINISHED 11': 104,
+                               'PERFECT 4': 5, 'AUGMENTED 3': 105, 'PERFECT 11': 5, 'AUGMENTED 10': 105,
+                               'DIMINISHED 5': 6, 'AUGMENTED 4': 106, 'DIMINISHED 12': 6, 'AUGMENTED 11': 106,
+                               'PERFECT 5': 7, 'DIMINISHED 6': 107, 'PERFECT 12': 7, 'DIMINISHED 13': 107,
+                               'MINOR 6': 8, 'AUGMENTED 5': 108, 'MINOR 13': 8, 'AUGMENTED 12': 108,
+                               'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9, 'DIMINISHED 14': 109,
+                               'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10, 'AUGMENTED 13': 110,
+                               'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11, 'DIMINISHED 15': 111,
+                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'AUGMENTED 14': 109
                                }
 
     def ascend_interval_from_name(self, qualified_interval_name):
@@ -27,12 +27,19 @@ class _IntervalBuilder:
         :return: A Note object representing the top note of the interval. If the top note of the interval is not
         a valid note, such as F###, and InvalidIntervalError is raised.
         """
-        number_of_steps = self.interval_steps[qualified_interval_name]
+        try:
+            number_of_steps = self.interval_steps[qualified_interval_name]
+        except KeyError:
+            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name)
+
         interval_top_note = interval_utils.INTERVAL_NOTE_PAIRS[self.rootnote][number_of_steps]
         return interval_top_note
 
     def descend_interval_from_name(self, qualified_interval_name):
-        number_of_steps = self.interval_steps[qualified_interval_name]
+        try:
+            number_of_steps = self.interval_steps[qualified_interval_name]
+        except KeyError:
+            raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name)
         interval_bottom_note = _fetch_interval_bottom_note(self.rootnote, number_of_steps)
         return interval_bottom_note
 

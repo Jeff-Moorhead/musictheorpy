@@ -29,8 +29,12 @@ class TestNote(unittest.TestCase):
             two = Note(2)
 
     def test_invalid_interval(self):
-        with self.assertRaises(InvalidIntervalError):
+        with self.assertRaises(NoteNameError):
             self.a_flat.ascend_interval('DIMINISHED 2')
+
+    def test_invalid_interval_name(self):
+        with self.assertRaises(InvalidIntervalError):
+            self.a_flat.ascend_interval('bad interval')
 
 
 if __name__ == '__main__':
