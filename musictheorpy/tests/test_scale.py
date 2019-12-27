@@ -12,14 +12,14 @@ class TestScale(unittest.TestCase):
         c_note_names = ('C', 'D', 'E', 'F', 'G', 'A', 'B')
         c_notes = tuple([name for name in c_note_names])
         self.assertEqual(self.c_scale.root, 'C')
-        self.assertEqual(self.c_scale.key_signature, [])
+        self.assertEqual(self.c_scale.key_signature, ())
         self.assertEqual(self.c_scale.quality, 'MAJOR')
         self.assertEqual(self.c_scale.notes, c_notes)
 
         d_min_note_names = ('D', 'E', 'F', 'G', 'A', 'Bb', 'C#')
         d_min_notes = tuple([name for name in d_min_note_names])
         self.assertEqual(self.d_harm_minor.root, 'D')
-        self.assertEqual(self.d_harm_minor.key_signature, ['Bb'])
+        self.assertEqual(self.d_harm_minor.key_signature, ('Bb',))
         self.assertEqual(self.d_harm_minor.quality, 'HARMONIC MINOR')
         self.assertEqual(self.d_harm_minor.notes, d_min_notes)
 

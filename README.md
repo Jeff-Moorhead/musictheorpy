@@ -79,15 +79,72 @@ InvalidQualityError is raised. For example,
 ```
 >>> c = Scale('C MAJOR')
 >>> c_harm = Scale('C HARMONIC MINOR')
->>> c_bad = Scale('C Foo')
+>>> c_badquality = Scale('C Foo')
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/scales.py", line 36, in __init__
     super().__init__('SCALE', qualified_name)
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/notegroups.py", line 74, in __init__
-    raise InvalidQualityError("Quality %s is not valid" % self.quality)
+    raise InvalidQualityError("Quality %s is not valid" % self.quality) from None
 musictheorpy.notegroups.InvalidQualityError: Quality Foo is not valid
+>>> c_badtonic = Scale('Z MAJOR')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/scales.py", line 36, in __init__
+    super().__init__('SCALE', qualified_name)
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/notegroups.py", line 68, in __init__
+    self._validate_root(unpacked_name)
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/scales.py", line 66, in _validate_root
+    "key signature." % unpacked_name['ROOT'])
+musictheorpy.scales.InvalidTonicError: Invalid tonic: Z. It is possible that this tonic is a valid 
+note name but that building the desired scale from this note would result in a scale with an invalid 
+key signature.
 ```
+
+As indicated in the trace back for `c_badtonic` above, it is possible to pass a valid note name
+to `Scale`, but still receive an InvalidTonicError. This occurs when the
+key signature of the given scale name would include qualifiers beyond sharps and flats.
+For example, G# Major would have F## in its key signature. Because key signatures like
+this are generally not used in music theory, they are not valid.  
+
+The key signature of a `Scale` object is accessible through its
+`key_signature` property, which is a tuple of strings representing the
+notes that make up the scale's key signature. For example,
+```
+>>> a_major = Scale('A MAJOR')
+>>> a_major.key_signature
+('F#', 'C#', 'G#')
+>>> e_minor = Scale('E NATURAL MINOR')
+>>> 'F#' in e_minor.key_signature
+True
+```
+
+In addition, you can access all the notes in the scale through the
+object's `notes` attribute, which provides a tuple of strings representing
+all the notes in the scale. Finally, `Scale` objects implement the 
+`__getitem__` and `__contains__` magic methods. The `__getitem__` method
+allows lookup of notes in a scale by degree name. Valid degree names are
+TONIC, SUPERTONIC, MEDIANT, SUBDOMINANT, DOMINANT, SUBMEDIANT, and 
+LEADING TONE. Note that degree names must be all uppercase. For example,
+```
+>>> a_major = Scale('A MAJOR')
+>>> a_major['TONIC']
+'A'
+>>> a_major['SUBMEDIANT']
+'F#'
+```
+
+Finally, users can test if a note is in a given scale using Python's
+built-in `in` keyword, thanks to the `__contains__` method.
+```
+>>> a_major = Scale('A MAJOR')
+>>> 'F#' in a_major
+True
+>>> 'B#' in a_major
+False
+```
+
+
 
 Chords
 ------

@@ -41,9 +41,6 @@ class Scale(_NoteGroup):
         :param degree: a string representing the scale degree, such as TONIC, MEDIANT, etc. degree should be all caps.
         :return: a Note object representing the scale degree.
         """
-        if self.quality != 'MAJOR' and 'MINOR' not in self.quality:
-            raise InvalidDegreeError("Only major and minor scales are subscriptable") from None
-
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,
                         'DOMINANT': 4, 'SUBMEDIANT': 5, 'LEADING TONE': 6}
 
@@ -70,7 +67,7 @@ class Scale(_NoteGroup):
         # return a list of strings representing the scale's key signature. C major and A minor scales return an empty list.
         qualified_tonic = tonic + (' MINOR' if 'MINOR' in quality else ' MAJOR')
         key_signature_number = cls._KEY_SIGNATURE_NUMBERS[qualified_tonic]
-        return cls._KEY_SIGNATURES[key_signature_number]
+        return tuple(cls._KEY_SIGNATURES[key_signature_number])
 
 
 class InvalidTonicError(Exception):
