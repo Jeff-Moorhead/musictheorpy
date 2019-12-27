@@ -115,16 +115,16 @@ def _build_chord(root, quality):
                        'DOMINANT #9': [0, 4, 7, 10, 103],
                        'MAJOR 9': [0, 4, 7, 11, 2],
                        'MINOR 9': [0, 3, 7, 10, 2],
-                       'DOMINANT 11': [0, 4, 7, 10, 5],
-                       'DOMINANT b11': [0, 4, 7, 10, 104],
-                       'DOMINANT #11': [0, 4, 7, 10, 106],
-                       'MAJOR 11': [0, 4, 7, 11, 5],
-                       'MINOR 11': [0, 3, 7, 10, 5],
-                       'DOMINANT 13': [0, 4, 7, 10, 9],
-                       'DOMINANT b13': [0, 4, 7, 10, 8],
-                       'DOMINANT #13': [0, 4, 7, 10, 110],
-                       'MAJOR 13': [0, 4, 7, 11, 9],
-                       'MINOR 13': [0, 3, 7, 10, 9]
+                       'DOMINANT 11': [0, 4, 7, 10, 2, 5],
+                       'DOMINANT b11': [0, 4, 7, 10, 2, 104],
+                       'DOMINANT #11': [0, 4, 7, 10, 2, 106],
+                       'MAJOR 11': [0, 4, 7, 11, 2, 5],
+                       'MINOR 11': [0, 3, 7, 10, 2, 5],
+                       'DOMINANT 13': [0, 4, 7, 10, 2, 5, 9],
+                       'DOMINANT b13': [0, 4, 7, 10, 2, 5, 8],
+                       'DOMINANT #13': [0, 4, 7, 10, 2, 5, 110],
+                       'MAJOR 13': [0, 4, 7, 11, 2, 5, 9],
+                       'MINOR 13': [0, 3, 7, 10, 2, 5, 9]
                        }
     return _build_group(root, chord_intervals[quality])
 

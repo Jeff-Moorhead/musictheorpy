@@ -144,8 +144,6 @@ True
 False
 ```
 
-
-
 Chords
 ------
 Properties: root (bass), notes, quality
