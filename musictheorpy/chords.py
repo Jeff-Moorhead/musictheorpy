@@ -10,7 +10,7 @@ class Chord(_NoteGroup):
         super().__init__('CHORD', qualified_name)
 
     def __getitem__(self, element):
-        degree_names = {'BASS': 0, 'THIRD': 1, 'FIFTH': 2, 'SEVENTH': 3, 'NINTH': 4, 'ELEVENTH': 4, 'THIRTEENTH': 4}
+        degree_names = {'BASS': 0, 'THIRD': 1, 'FIFTH': 2, 'SEVENTH': 3, 'NINTH': 4, 'ELEVENTH': 5, 'THIRTEENTH': 6}
         chord_degree = degree_names[element]
         try:
             return self.notes[chord_degree]
