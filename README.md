@@ -14,7 +14,7 @@ Notes
 -----
 
 
-#####*class* Note  
+#####*class* Note(*qualified_name*)
 The Note class is built with a string representing a qualified note name. The 
 qualified note name should be an uppercase letter A - G, 
 optionally followed by a qualifier. Valid qualifiers are `#`, `##`, `b`, and 
@@ -68,7 +68,7 @@ then an `InvalidIntervalException` is raised.
 Scales
 ------
 
-#####*class* Scale
+#####*class* Scale(*qualified_name*)
 A scale object is constructed with a string representing the qualified scale
 name. The qualified scale name consists of an uppercase tonic followed by a
 uppercase scale quality. Valid tonics are letters A - G. Valid qualities are
@@ -146,5 +146,72 @@ False
 
 Chords
 ------
-Properties: root (bass), notes, quality
-Behaviors: get relative/parallel, get element, get note number, possibly validate tonic
+#####*class* Chord(*qualified_name*)
+
+Chord objects are constructed with a string representing the qualified
+name of the chord. Like scales, the qualified name of a chord is made up
+of a bass note name (letters A through G) followed by a quality. Valid
+chord qualities are MAJOR, MINOR, DIMINISHED, AUGMENTED, and MINOR 7b5.
+Chords containing upper extensions 7, 9, 11, and 13 are also possible. All upper
+extensions can be DOMINANT, MAJOR, or MINOR, e.g. DOMINANT 7, MAJOR 9, MINOR 13.
+In addition, extensions 9, 11, and 13 can be modified with a flat (b)
+or sharp (#) for dominant chords, e.g DOMINANT #9, DOMINANT b13.  
+
+If an invalid bass note is passed, an InvalidBassError is raised. Similarly,
+if an invalid chord quality is passed, an InvalidQualityError is raised. For 
+example,
+```
+>>> c = Chord('C MAJOR')
+>>> c_seventh = Chord('C DOMINANT 7')
+>>> z = Chord('Z MAJOR')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 10, in __init__
+    super().__init__('CHORD', qualified_name)
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/notegroups.py", line 68, in __init__
+    self._validate_root(unpacked_name)
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 25, in _validate_root
+    raise InvalidBassError("Invalid bass note: %s" % unpacked_name['ROOT'])
+musictheorpy.chords.InvalidBassError: Invalid bass note: Z
+>>> c_badqual = Chord('C FOO')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 10, in __init__
+    super().__init__('CHORD', qualified_name)
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/notegroups.py", line 74, in __init__
+    raise InvalidQualityError("Quality %s is not valid" % self.quality) from None
+musictheorpy.notegroups.InvalidQualityError: Quality FOO is not valid
+```
+
+Users can access the notes in a Chord object via the object's `notes` attribute. This
+attribute provides a tuple containing all the notes in the chord as strings. For example,
+```
+>>> c_dominant = Chord('C DOMINANT 7')
+>>> c_dominant.notes
+('C', 'E', 'G', 'Bb')
+```
+In addition, Chord objects implement the `__getitem__` method so users can check if a note is
+in the chord directly:
+```
+>>> c = Chord('C MAJOR')
+>>> 'E' in c
+True
+>>> 'F' in c
+False
+```
+Finally, Chord objects allow access to its constituent notes via the `__getitem__` method, which allows
+lookup by degree name. Valid degree names are BASS, THIRD, FIFTH, SEVENTH, NINTH, ELEVENTH, and THIRTEENTH.
+Note that not all degrees apply to all chords, and only thirteenth chords will
+have all degrees. In general, chords only contain a subset of these degrees. If an invalid degree
+is passed for the given chord, an InvalidDegreeError is raised. For example,
+```
+>>> c = Chord('C MAJOR')  # a triad, no extensions
+>>> c['THIRD']  # valid degree
+'E'
+>>> c['NINTH']
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 18, in __getitem__
+    raise InvalidDegreeError("Invalid degree name: %s" % element) from None
+musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: NINTH
+```
