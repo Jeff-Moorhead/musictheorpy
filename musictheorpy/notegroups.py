@@ -79,6 +79,12 @@ class _NoteGroup(abc.ABC):
         """ Needed to validate the root of certain subclasses """
         pass
 
+    def __str__(self):
+        return self.notes
+
+    def __repr__(self):
+        return self.notes
+
     @abc.abstractmethod
     def __getitem__(self, item):
         pass
