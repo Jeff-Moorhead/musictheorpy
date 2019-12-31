@@ -5,8 +5,8 @@ from ..notegroups import InvalidQualityError, InvalidDegreeError
 
 class TestScale(unittest.TestCase):
     def setUp(self):
-        self.c_scale = Scale('C MAJOR')
-        self.d_harm_minor = Scale('D HARMONIC MINOR')
+        self.c_scale = Scale('c major')
+        self.d_harm_minor = Scale('D harmonic minor')
 
     def test_scale(self):
         c_note_names = ('C', 'D', 'E', 'F', 'G', 'A', 'B')
@@ -24,12 +24,12 @@ class TestScale(unittest.TestCase):
         self.assertEqual(self.d_harm_minor.notes, d_min_notes)
 
     def test_getitem(self):
-        self.assertEqual(self.c_scale['SUBMEDIANT'], 'A')
+        self.assertEqual(self.c_scale['submediant'], 'A')
 
         self.assertEqual(self.d_harm_minor['SUBDOMINANT'], 'G')
 
     def test_contains(self):
-        self.assertTrue('G' in self.c_scale)
+        self.assertTrue('g' in self.c_scale)
         self.assertFalse('D#' in self.c_scale)
         self.assertTrue('Bb' in self.d_harm_minor)
         self.assertFalse('F#' in self.d_harm_minor)

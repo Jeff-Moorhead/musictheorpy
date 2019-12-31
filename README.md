@@ -15,9 +15,9 @@ Installation
 Musictheorpy is free to use and modify under the MIT license. To install the package, simply run `pip install musictheorpy`.
 Note that only Python version 3.6 and above are officially supported. If you do not want
 to use pip for whatever reason, you can also download the source from Github at https://github.com/Jeff-Moorhead/musictheorpy
-and install the package using `python setup.py install`. Once musictheorpy is installed, run the tests using
-either `nosetests` or `python -m unittest discover` to make sure everything is working as expected. If all the tests pass,
-feel free to start doing some music theory!
+and install the package using `python setup.py install`. Once musictheorpy is installed, feel free to run the tests using
+either `nosetests` or `python -m unittest discover` to make sure everything is working as expected. Once you have the library
+installed, continue to the API reference below.
 
 Contributing
 ------------
@@ -38,13 +38,14 @@ Notes
 
 
 ##### *class* Note(*qualified_name*)
-The Note class is built with a string representing a qualified note name. The 
-qualified note name should be an uppercase letter A - G, 
+Note objects are composed of a string representing a qualified note name. The 
+qualified note name should be a letter A through G, 
 optionally followed by a qualifier. Valid qualifiers are `#`, `##`, `b`, and 
 `bb` (lowercase B). A note name with no qualifier is also allowed and represents a natural. 
 For example, `Note('A')`, `Note('C#')`, and `Note('Gb')` are all valid, while 
-`Note('H')` and `Note('Fbbb')` are invalid. If the client attempts to create
-a Note object with an invalid qualified note name, a NoteNameError is raised.  
+`Note('H')` and `Note('Fbbb')` are invalid. Note that note names can be lowercase or 
+uppercase, but qualifiers must be lowercase (`Note('ab')` is valid, but `Note('aB')` is not). 
+If you attempt to create a Note object with an invalid qualified note name, a NoteNameError is raised.  
 
 Note objects expose the following public methods:
 - ascend_interval(*qualified_interval*)
@@ -52,8 +53,8 @@ Note objects expose the following public methods:
 
 Both ascend_ and descend_interval accept a string representing a
 qualified interval name. Qualified interval names are comprised of
-an all-uppercase quality followed by an interval number. Valid qualities
-are MAJOR, MINOR, PERFECT, AUGMENTED, and DIMINISHED. Valid interval numbers
+a quality followed by an interval number. Valid qualities
+are major, minor, perfect, augmented, and diminished. Valid interval numbers
 are 0 - 15. Standard music theory nomenclature applies, i.e. fourths,
 fifths, unisons, octaves, elevenths, twelfths, and fifteenths can only be
 perfect, diminished, or augmented, while all other intervals can only be
@@ -63,7 +64,7 @@ Both methods return a Note object representing the note at
 the other end of the given interval. For example,
 ```
 >>> c = Note('C')
->>> a = c.ascend_interval('MAJOR 6')
+>>> a = c.ascend_interval('major 6')
 >>> a.qualified_name
 'A'
 >>>
@@ -74,14 +75,14 @@ descend_interval is functionally identical, except that it descends the given
 interval. For example,
 ```
 >>> c = Note('C')
->>> a = c.descend_interval('MINOR 3')
+>>> a = c.descend_interval('minor 3')
 >>> a.qualified_name
 'A'
 >>>
 ```
 In some cases, an interval name may be perfectly valid, but the note on the other
 side of the interval is not a valid note. This is particularly common in flat and sharp
-notes. For example, ascending an augmented third (`AUGMENTED 3`) from A# would
+notes. For example, ascending an augmented third (`augmented 3`) from A# would
 technically result in a C###, which is not considered valid. In this case, an `NoteNameError`
 is raised to inform the client that the given interval is not valid for the starting note.   
 
@@ -93,15 +94,15 @@ Scales
 
 ##### *class* Scale(*qualified_name*)
 A scale object is constructed with a string representing the qualified scale
-name. The qualified scale name consists of an uppercase tonic followed by a
-uppercase scale quality. Valid tonics are letters A - G. Valid qualities are
-MAJOR, HARMONIC MINOR, MELODIC MINOR, and NATURAL MINOR. If an invalid tonic
+name. The qualified scale name consists of a tonic followed by a scale quality. 
+Valid tonics are letters A - G. Valid qualities are
+major, harmonic minor, melodic minor, and natural minor. If an invalid tonic
 passed, an InvalidTonicError is raised. If an invalid quality is passed, an
 InvalidQualityError is raised. For example,
 
 ```
->>> c = Scale('C MAJOR')
->>> c_harm = Scale('C HARMONIC MINOR')
+>>> c = Scale('C major')
+>>> c_harm = Scale('C harmonic minor')
 >>> c_badquality = Scale('C Foo')
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
@@ -110,7 +111,7 @@ Traceback (most recent call last):
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/notegroups.py", line 74, in __init__
     raise InvalidQualityError("Quality %s is not valid" % self.quality) from None
 musictheorpy.notegroups.InvalidQualityError: Quality Foo is not valid
->>> c_badtonic = Scale('Z MAJOR')
+>>> c_badtonic = Scale('Z major')
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/scales.py", line 36, in __init__
@@ -134,10 +135,10 @@ The key signature of a `Scale` object is accessible through its
 `key_signature` property, which is a tuple of strings representing the
 notes that make up the scale's key signature. For example,
 ```
->>> a_major = Scale('A MAJOR')
+>>> a_major = Scale('A major')
 >>> a_major.key_signature
 ('F#', 'C#', 'G#')
->>> e_minor = Scale('E NATURAL MINOR')
+>>> e_minor = Scale('E natural minor')
 >>> 'F#' in e_minor.key_signature
 True
 ```
@@ -150,17 +151,17 @@ allows lookup of notes in a scale by degree name. Valid degree names are
 TONIC, SUPERTONIC, MEDIANT, SUBDOMINANT, DOMINANT, SUBMEDIANT, and 
 LEADING TONE. Note that degree names must be all uppercase. For example,
 ```
->>> a_major = Scale('A MAJOR')
->>> a_major['TONIC']
+>>> a_major = Scale('A major')
+>>> a_major['tonic']
 'A'
->>> a_major['SUBMEDIANT']
+>>> a_major['submediant']
 'F#'
 ```
 
 Finally, users can test if a note is in a given scale using Python's
 built-in `in` keyword, thanks to the `__contains__` method.
 ```
->>> a_major = Scale('A MAJOR')
+>>> a_major = Scale('A major')
 >>> 'F#' in a_major
 True
 >>> 'B#' in a_major
@@ -174,19 +175,19 @@ Chords
 Chord objects are constructed with a string representing the qualified
 name of the chord. Like scales, the qualified name of a chord is made up
 of a bass note name (letters A through G) followed by a quality. Valid
-chord qualities are MAJOR, MINOR, DIMINISHED, AUGMENTED, and MINOR 7b5.
+chord qualities are major, minor, diminished, augmented, and minor 7b5.
 Chords containing upper extensions 7, 9, 11, and 13 are also possible. All upper
-extensions can be DOMINANT, MAJOR, or MINOR, e.g. DOMINANT 7, MAJOR 9, MINOR 13.
+extensions can be dominant, major, or minor, e.g. dominant 7, major 9, minor 13.
 In addition, extensions 9, 11, and 13 can be modified with a flat (b)
-or sharp (#) for dominant chords, e.g DOMINANT #9, DOMINANT b13.  
+or sharp (#) for dominant chords, e.g. dominant #9, dominant b13.  
 
 If an invalid bass note is passed, an InvalidBassError is raised. Similarly,
 if an invalid chord quality is passed, an InvalidQualityError is raised. For 
 example,
 ```
->>> c = Chord('C MAJOR')
->>> c_seventh = Chord('C DOMINANT 7')
->>> z = Chord('Z MAJOR')
+>>> c = Chord('C major')
+>>> c_seventh = Chord('C dominant 7')
+>>> z = Chord('Z major')
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 10, in __init__
@@ -209,14 +210,14 @@ musictheorpy.notegroups.InvalidQualityError: Quality FOO is not valid
 Users can access the notes in a Chord object via the object's `notes` attribute. This
 attribute provides a tuple containing all the notes in the chord as strings. For example,
 ```
->>> c_dominant = Chord('C DOMINANT 7')
+>>> c_dominant = Chord('C dominant 7')
 >>> c_dominant.notes
 ('C', 'E', 'G', 'Bb')
 ```
 In addition, Chord objects implement the `__getitem__` method so users can check if a note is
 in the chord directly:
 ```
->>> c = Chord('C MAJOR')
+>>> c = Chord('C major')
 >>> 'E' in c
 True
 >>> 'F' in c
@@ -228,13 +229,13 @@ Note that not all degrees apply to all chords, and only thirteenth chords will
 have all degrees. In general, chords only contain a subset of these degrees. If an invalid degree
 is passed for the given chord, an InvalidDegreeError is raised. For example,
 ```
->>> c = Chord('C MAJOR')  # a triad, no extensions
->>> c['THIRD']  # valid degree
+>>> c = Chord('C major')  # a triad, no extensions
+>>> c['third']  # valid degree
 'E'
->>> c['NINTH']
+>>> c['ninth']
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 18, in __getitem__
     raise InvalidDegreeError("Invalid degree name: %s" % element) from None
-musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: NINTH
+musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: ninth
 ```

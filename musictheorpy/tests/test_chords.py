@@ -7,7 +7,7 @@ from ..notegroups import InvalidDegreeError, InvalidQualityError
 class TestChords(TestCase):
     def setUp(self):
         self.testchord = chords.Chord('C DOMINANT 13')
-        self.testtriad = chords.Chord('C MAJOR')
+        self.testtriad = chords.Chord('c major')
 
     def test_invalid_bass(self):
         with self.assertRaises(chords.InvalidBassError):
@@ -18,7 +18,7 @@ class TestChords(TestCase):
             a = chords.Chord('A Foo')
 
     def test_getitem_bass(self):
-        c = self.testchord['BASS']
+        c = self.testchord['bass']
         self.assertEqual(c, 'C')
 
     def test_getitem_third(self):

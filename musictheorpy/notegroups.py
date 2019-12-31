@@ -29,6 +29,7 @@ class _IntervalBuilder:
         a valid note, such as F###, and InvalidIntervalError is raised.
         """
         try:
+            qualified_interval_name = qualified_interval_name.upper()
             number_of_steps = self.interval_steps[qualified_interval_name]
         except KeyError:
             raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
@@ -38,6 +39,7 @@ class _IntervalBuilder:
 
     def descend_interval_from_name(self, qualified_interval_name):
         try:
+            qualified_interval_name = qualified_interval_name.upper()
             number_of_steps = self.interval_steps[qualified_interval_name]
         except KeyError:
             raise interval_utils.InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
@@ -66,8 +68,8 @@ class _NoteGroup(abc.ABC):
         builder = _get_group_builder(grouptype)  # get the function that builds the group
         unpacked_name = _unpack_group_name(qualified_name)
         self._validate_root(unpacked_name)
-        self.root = unpacked_name['ROOT']
-        self.quality = unpacked_name['QUALITY']
+        self.root = unpacked_name['ROOT'].upper()
+        self.quality = unpacked_name['QUALITY'].upper()
         try:
             self.notes = builder(self.root, self.quality)
         except KeyError:
@@ -82,6 +84,7 @@ class _NoteGroup(abc.ABC):
         pass
 
     def __contains__(self, note):
+        note = note[0].upper() + note[1:]
         return note in self.notes
 
 

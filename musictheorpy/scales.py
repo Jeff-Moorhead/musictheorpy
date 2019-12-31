@@ -33,6 +33,7 @@ class Scale(_NoteGroup):
                        -6: _FLATS[:6], -7: _FLATS[:7]}
 
     def __init__(self, qualified_name):
+        qualified_name = qualified_name.upper()
         super().__init__('SCALE', qualified_name)
         self.key_signature = Scale._fetch_key_signature(self.root, self.quality)
 
@@ -45,6 +46,7 @@ class Scale(_NoteGroup):
                         'DOMINANT': 4, 'SUBMEDIANT': 5, 'LEADING TONE': 6}
 
         try:
+            degree = degree.upper()
             degree_number = degree_names[degree]
             return self.notes[degree_number]
         except KeyError:

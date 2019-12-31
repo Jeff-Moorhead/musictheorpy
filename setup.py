@@ -16,9 +16,8 @@ setuptools.setup(
     url="https://github.com/Jeff-Moorhead/musictheorpy",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
-    python_requires='>=3.6',
 )

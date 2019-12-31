@@ -25,6 +25,7 @@ class Note:
 
     @qualified_name.setter
     def qualified_name(self, name):
+        name = str(name)[0].upper() + str(name)[1:]
         if name not in VALID_QUALIFIED_NAMES:
             raise NoteNameError("Invalid note name: %s." % name)
         else:

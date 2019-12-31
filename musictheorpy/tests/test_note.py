@@ -6,7 +6,7 @@ from ..notegroups import _IntervalBuilder
 
 class TestNote(unittest.TestCase):
     def setUp(self):
-        self.a = Note('A')
+        self.a = Note('a')
         self.c = Note('C')
         self.a_flat = Note('Ab')
         self.builder = _IntervalBuilder('A')
@@ -17,16 +17,12 @@ class TestNote(unittest.TestCase):
             self.assertEqual(self.a.ascend_interval(interval), Note(top_note))
 
     def test_descend_interval(self):
-        c = self.a.descend_interval("MAJOR 6")
+        c = self.a.descend_interval("major 6")
         self.assertEqual(c, Note('C'))
 
     def test_invalid_qualified_name(self):
         with self.assertRaises(NoteNameError):
             z_sharp = Note('z#')
-
-    def test_invalid_type(self):
-        with self.assertRaises(NoteNameError):
-            two = Note(2)
 
     def test_invalid_interval(self):
         with self.assertRaises(NoteNameError):
