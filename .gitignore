@@ -6,3 +6,4 @@ musictheorpy/console/tests/__pycache__/*
 musictheorpy/tests/__pycache__/*
 *.egg-info
 todo.txt
+dist/
