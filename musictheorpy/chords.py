@@ -12,9 +12,9 @@ class Chord(_NoteGroup):
 
     def __getitem__(self, element):
         degree_names = {'BASS': 0, 'THIRD': 1, 'FIFTH': 2, 'SEVENTH': 3, 'NINTH': 4, 'ELEVENTH': 5, 'THIRTEENTH': 6}
-        element = element.upper()
-        chord_degree = degree_names[element]
         try:
+            element = element.upper()
+            chord_degree = degree_names[element]
             return self.notes[chord_degree]
         except (IndexError, KeyError):
             raise InvalidDegreeError("Invalid degree name: %s" % element) from None
