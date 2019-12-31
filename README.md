@@ -14,7 +14,7 @@ Notes
 -----
 
 
-#####*class* Note(*qualified_name*)
+##### *class* Note(*qualified_name*)
 The Note class is built with a string representing a qualified note name. The 
 qualified note name should be an uppercase letter A - G, 
 optionally followed by a qualifier. Valid qualifiers are `#`, `##`, `b`, and 
@@ -68,7 +68,7 @@ then an `InvalidIntervalException` is raised.
 Scales
 ------
 
-#####*class* Scale(*qualified_name*)
+##### *class* Scale(*qualified_name*)
 A scale object is constructed with a string representing the qualified scale
 name. The qualified scale name consists of an uppercase tonic followed by a
 uppercase scale quality. Valid tonics are letters A - G. Valid qualities are
@@ -146,7 +146,7 @@ False
 
 Chords
 ------
-#####*class* Chord(*qualified_name*)
+##### *class* Chord(*qualified_name*)
 
 Chord objects are constructed with a string representing the qualified
 name of the chord. Like scales, the qualified name of a chord is made up
@@ -215,3 +215,6 @@ Traceback (most recent call last):
     raise InvalidDegreeError("Invalid degree name: %s" % element) from None
 musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: NINTH
 ```
+
+Installation
+------------
