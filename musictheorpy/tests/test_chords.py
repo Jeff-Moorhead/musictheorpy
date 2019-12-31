@@ -5,7 +5,7 @@ from ..notegroups import InvalidDegreeError, InvalidQualityError
 
 
 class TestChords(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.testchord = chords.Chord('C DOMINANT 13')
         self.testtriad = chords.Chord('C MAJOR')
 
