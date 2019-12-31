@@ -80,10 +80,10 @@ class _NoteGroup(abc.ABC):
         pass
 
     def __str__(self):
-        return self.notes
+        return str(self.notes)
 
     def __repr__(self):
-        return self.notes
+        return str(self.notes)
 
     @abc.abstractmethod
     def __getitem__(self, item):
