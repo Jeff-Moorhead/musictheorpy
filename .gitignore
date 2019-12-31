@@ -7,3 +7,4 @@ musictheorpy/tests/__pycache__/*
 *.egg-info
 todo.txt
 dist/
+build/
