@@ -2,13 +2,36 @@
 
 Musictheorpy is a Python library to perform musical calculations,
 including intervals, triads/chords, and scales. The following modules
-are available to use
+are available to use:
 - musictheorpy.notes
 - musictheorpy.scales
 - musictheorpy.chords
 
 All other modules contain implementation details and should not be
 imported by clients.
+
+Installation
+------------
+Musictheorpy is free to use and modify under the MIT license. To install the package, simply run `pip install musictheorpy`.
+Note that only Python version 3.6 and above are officially supported. If you do not want
+to use pip for whatever reason, you can also download the source from Github at https://github.com/Jeff-Moorhead/musictheorpy
+and install the package using `python setup.py install`. Once musictheorpy is installed, run the tests using
+either `nosetests` or `python -m unittest discover` to make sure everything is working as expected. If all the tests pass,
+feel free to start doing some music theory!
+
+Contributing
+------------
+Musictheorpy is under active development and will grow to include new features in the future. I am always open
+to hearing people's ideas, so if you have a thought on how the project can improve, please
+feel free to send me an email at **jeff.moorhead1@gmail.com** with your name, thoughts on improving the library, and 
+how I can best contact you to continue the discussion. I only ask that you be patient, as between work, graduate school,
+and life, it may take me a few days to respond.  
+
+Happy coding!
+
+
+API Reference
+-------------
 
 Notes
 -----
@@ -24,8 +47,8 @@ For example, `Note('A')`, `Note('C#')`, and `Note('Gb')` are all valid, while
 a Note object with an invalid qualified note name, a NoteNameError is raised.  
 
 Note objects expose the following public methods:
-- ascend_interval
-- descend_interval
+- ascend_interval(*qualified_interval*)
+- descend_interval(*qualified_interval*)
 
 Both ascend_ and descend_interval accept a string representing a
 qualified interval name. Qualified interval names are comprised of
@@ -215,6 +238,3 @@ Traceback (most recent call last):
     raise InvalidDegreeError("Invalid degree name: %s" % element) from None
 musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: NINTH
 ```
-
-Installation
-------------
