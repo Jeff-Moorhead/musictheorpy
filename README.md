@@ -1,14 +1,7 @@
 # Musictheorpy
 
 Musictheorpy is a Python library to perform musical calculations,
-including intervals, triads/chords, and scales. The following modules
-are available to use:
-- musictheorpy.notes
-- musictheorpy.scales
-- musictheorpy.chords
-
-All other modules contain implementation details and should not be
-imported by clients.
+including intervals, triads/chords, and scales.
 
 Installation
 ------------
@@ -32,6 +25,11 @@ Happy coding!
 
 API Reference
 -------------
+All of the classes below can be accessed directly from within the musictheorpy namespace, for example:
+```
+>>> import musictheorpy
+>>> note = musictheorpy.Note('A')
+```
 
 Notes
 -----
