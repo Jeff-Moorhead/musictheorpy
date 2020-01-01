@@ -8,8 +8,8 @@ Installation
 Musictheorpy is free to use and modify under the MIT license. To install the package, simply run `pip install musictheorpy`.
 Note that only Python version 3.6 and above are officially supported. If you do not want
 to use pip for whatever reason, you can also download the source from Github at https://github.com/Jeff-Moorhead/musictheorpy
-and install the package from source. Once musictheorpy is installed, feel free to run the tests using
-either `nosetests` or `python -m unittest discover` to make sure everything is working as expected. Once you have the library
+and install the package from source. Once musictheorpy is installed, feel free to run the tests found in musictheorpy/tests 
+using either `nosetests` or `python -m unittest discover` to make sure everything is working as expected. Once you have the library
 installed, continue to the API reference below.
 
 Contributing
