@@ -5,6 +5,6 @@ musictheorpy/console/__pycache__/*
 musictheorpy/console/tests/__pycache__/*
 musictheorpy/tests/__pycache__/*
 *.egg-info
-todo.txt
+TODO.txt
 dist/
 build/
