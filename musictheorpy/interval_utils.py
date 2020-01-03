@@ -1,5 +1,5 @@
 """
-This module holds constants and classes that facilitate the processing of intervals.
+This module holds the main data structure that facilitate the processing of intervals.
 """
 
 INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6: 'Eb',

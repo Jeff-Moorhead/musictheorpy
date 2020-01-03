@@ -23,11 +23,6 @@ class _IntervalBuilder:
                                }
 
     def ascend_interval_from_name(self, qualified_interval_name):
-        """
-        :param str qualified_interval_name: The interval to ascend. Interval quality should be all caps, e.g. MAJOR 3.
-        :return: A Note object representing the top note of the interval. If the top note of the interval is not
-        a valid note, such as F###, and InvalidIntervalError is raised.
-        """
         try:
             qualified_interval_name = qualified_interval_name.upper()
             number_of_steps = self.interval_steps[qualified_interval_name]
@@ -64,7 +59,7 @@ def _fetch_interval_bottom_note(qualified_note_name, steps):
 class _NoteGroup(abc.ABC):
     @abc.abstractmethod
     def __init__(self, grouptype, qualified_name):
-        """ Group type is the type (e.g. SCALE, CHORD) in all caps """
+        """ Represents a group such as a scale or chord """
         builder = _get_group_builder(grouptype)  # get the function that builds the group
         unpacked_name = _unpack_group_name(qualified_name)
         self._validate_root(unpacked_name)

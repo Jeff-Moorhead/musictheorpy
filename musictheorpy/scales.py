@@ -39,7 +39,7 @@ class Scale(_NoteGroup):
 
     def __getitem__(self, degree):
         """
-        :param degree: a string representing the scale degree, such as TONIC, MEDIANT, etc. degree should be all caps.
+        :param degree: a string representing the scale degree, such as TONIC, MEDIANT.
         :return: a Note object representing the scale degree.
         """
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,

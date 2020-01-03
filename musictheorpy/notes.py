@@ -9,7 +9,7 @@ VALID_QUALIFIED_NAMES = [name + qualifier for name in VALID_NOTES for qualifier 
 class Note:
     def __init__(self, qualified_name):
         """
-        :param qualified_name: The qualified name of the note. The note's qualified name is the capitalized note
+        :param qualified_name: The qualified name of the note. The note's qualified name is the note
         name, optionally followed by the qualifier. Valid note names are English capital letters A through G. Valid
         qualifiers are # (sharp), b (flat), ## (double sharp), bb (double flat). Note that flats must be lowercase or
         a NoteNameError is raised. A note name followed by no qualifier represents a natural, e.g. 'A' represents 'A
@@ -42,7 +42,7 @@ class Note:
 
     def ascend_interval(self, qualified_interval_name):
         """
-        :param str qualified_interval_name: The interval to ascend. Interval quality should be all caps, e.g. MAJOR 3.
+        :param str qualified_interval_name: The interval to ascend, e.g. major 3.
         :return: A Note object representing the top note of the interval. If the top note of the interval is not
         a valid note, such as F###, and InvalidIntervalError is raised.
         """
@@ -54,7 +54,7 @@ class Note:
 
     def descend_interval(self, qualified_interval_name):
         """
-        :param qualified_interval_name: the interval to fetch. Interval quality should be all caps, e.g. MAJOR 3.
+        :param qualified_interval_name: the interval to fetch, e.g. major 3.
         :return: a Note object representing the bottom note of the interval. If the bottom note of the interval is not
         a valid note, such as F###, an InvalidInvervalError is raised.
         """
