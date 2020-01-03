@@ -45,6 +45,10 @@ class TestChords(TestCase):
         a = self.testchord['THIRTEENTH']
         self.assertEqual(a, 'A')
 
+    def test_getitem_nonexistant_degree(self):
+        b_flat = self.testtriad['SEVENTH']
+        self.assertTrue(b_flat is None)
+
     def test_getitem_invalid_degree(self):
         with self.assertRaises(InvalidDegreeError):
-            b_flat = self.testtriad['SEVENTH']
+            bad_degree = self.testtriad['baddeg']

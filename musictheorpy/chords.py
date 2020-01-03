@@ -16,7 +16,9 @@ class Chord(_NoteGroup):
             element = element.upper()
             chord_degree = degree_names[element]
             return self.notes[chord_degree]
-        except (IndexError, KeyError):
+        except IndexError:
+            return None
+        except KeyError:
             raise InvalidDegreeError("Invalid degree name: %s" % element) from None
 
     def _validate_root(self, unpacked_name):

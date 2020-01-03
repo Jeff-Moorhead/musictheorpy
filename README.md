@@ -225,16 +225,23 @@ False
 Finally, Chord objects allow access to its constituent notes via the `__getitem__` method, which allows
 lookup by degree name. Valid degree names are bass, third, fifth, seventh, ninth, eleventh, and thirteenth.
 Note that not all degrees apply to all chords, and only thirteenth chords will
-have all degrees. In general, chords only contain a subset of these degrees. If an invalid degree
-is passed for the given chord, an InvalidDegreeError is raised. For example,
+have all degrees. In general, chords only contain a subset of these degrees. If the caller tries to access a
+degree that is not present in the given chord, `__getitem__` returns None. For example,
 ```
 >>> c = Chord('C major')  # a triad, no extensions
 >>> c['third']  # valid degree
 'E'
->>> c['ninth']
+>>> c['ninth'] is None  # C triad does not have a ninth
+True
+```
+
+If an invalid degree is passed, an InvalidDegreeError is raised.
+```
+>>> c = Chord('C major')
+>>> c['foo']
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
   File "/home/jmoorhead/projects/musictheorpy/musictheorpy/chords.py", line 18, in __getitem__
     raise InvalidDegreeError("Invalid degree name: %s" % element) from None
-musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: ninth
+musictheorpy.notegroups.InvalidDegreeError: Invalid degree name: foo
 ```

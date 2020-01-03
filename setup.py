@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as readme:
 
 setuptools.setup(
     name="musictheorpy",
-    version="1.0.4",
+    version="1.1.0",
     author="Jeffrey Moorhead",
     author_email="jeff.moorhead1@gmail.com",
     description="A music theory library for Python",
