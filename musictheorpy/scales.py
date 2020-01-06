@@ -33,7 +33,6 @@ class Scale(_NoteGroup):
                        -6: _FLATS[:6], -7: _FLATS[:7]}
 
     def __init__(self, qualified_name):
-        qualified_name = qualified_name.upper()
         super().__init__('SCALE', qualified_name)
         self.key_signature = Scale._fetch_key_signature(self.root, self.quality)
 
@@ -51,6 +50,16 @@ class Scale(_NoteGroup):
             return self.notes[degree_number]
         except KeyError:
             raise InvalidDegreeError('Invalid degree name: %s' % degree) from None
+
+    def get_relative(self):
+        if self.quality == 'MAJOR':
+            relative_quality = 'NATURAL MINOR'
+            relative_tonic = self.__getitem__('SUBMEDIANT')
+        else:
+            relative_quality = 'MAJOR'
+            relative_tonic = self.__getitem__('MEDIANT')
+        qualified_relative_name = '%s %s' % (relative_tonic, relative_quality)
+        return Scale(qualified_relative_name)
 
     def _validate_root(self, unpacked_name):
         if 'MINOR' in unpacked_name['QUALITY']:

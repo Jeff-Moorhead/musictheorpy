@@ -63,8 +63,8 @@ class _NoteGroup(abc.ABC):
         builder = _get_group_builder(grouptype)  # get the function that builds the group
         unpacked_name = _unpack_group_name(qualified_name)
         self._validate_root(unpacked_name)
-        self.root = unpacked_name['ROOT'].upper()
-        self.quality = unpacked_name['QUALITY'].upper()
+        self.root = unpacked_name['ROOT']
+        self.quality = unpacked_name['QUALITY']
         try:
             self.notes = builder(self.root, self.quality)
         except KeyError:
@@ -87,6 +87,16 @@ class _NoteGroup(abc.ABC):
     def __contains__(self, note):
         note = note[0].upper() + note[1:]
         return note in self.notes
+
+
+def _unpack_group_name(groupname):
+    split_group = groupname.split(' ', 1)
+    try:
+        root = split_group[0][0].upper() + split_group[0][1:]
+        quality = split_group[1].upper()
+    except IndexError:
+        raise InvalidQualityError("No quality given.") from None
+    return {'ROOT': root, 'QUALITY': quality}
 
 
 def _get_group_builder(grouptype):
@@ -136,16 +146,6 @@ def _build_chord(root, quality):
 def _build_group(root, intervals):
     # build a group of notes (scale, triad, chord) from root using the list of intervals.
     return tuple([interval_utils.INTERVAL_NOTE_PAIRS[root][interval] for interval in intervals])
-
-
-def _unpack_group_name(groupname):
-    split_group = groupname.split(' ', 1)
-    try:
-        root = split_group[0]
-        quality = split_group[1]
-    except IndexError:
-        raise InvalidQualityError("No quality given.") from None
-    return {'ROOT': root, 'QUALITY': quality}
 
 
 class InvalidDegreeError(Exception):

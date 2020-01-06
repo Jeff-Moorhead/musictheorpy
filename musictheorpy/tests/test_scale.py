@@ -6,22 +6,26 @@ from ..notegroups import InvalidQualityError, InvalidDegreeError
 class TestScale(unittest.TestCase):
     def setUp(self):
         self.c_scale = Scale('c major')
+        self.b_flat = Scale('Bb major')
         self.d_harm_minor = Scale('D harmonic minor')
 
     def test_scale(self):
         c_note_names = ('C', 'D', 'E', 'F', 'G', 'A', 'B')
-        c_notes = tuple([name for name in c_note_names])
         self.assertEqual(self.c_scale.root, 'C')
         self.assertEqual(self.c_scale.key_signature, ())
         self.assertEqual(self.c_scale.quality, 'MAJOR')
-        self.assertEqual(self.c_scale.notes, c_notes)
+        self.assertEqual(self.c_scale.notes, c_note_names)
+
+        bflat_notes = ('Bb', 'C', 'D', 'Eb', 'F', 'G', 'A')
+        self.assertEqual(self.b_flat.root, 'Bb')
+        self.assertEqual(self.b_flat.key_signature, ('Bb', 'Eb'))
+        self.assertEqual(self.b_flat.notes, bflat_notes)
 
         d_min_note_names = ('D', 'E', 'F', 'G', 'A', 'Bb', 'C#')
-        d_min_notes = tuple([name for name in d_min_note_names])
         self.assertEqual(self.d_harm_minor.root, 'D')
         self.assertEqual(self.d_harm_minor.key_signature, ('Bb',))
         self.assertEqual(self.d_harm_minor.quality, 'HARMONIC MINOR')
-        self.assertEqual(self.d_harm_minor.notes, d_min_notes)
+        self.assertEqual(self.d_harm_minor.notes, d_min_note_names)
 
     def test_getitem(self):
         self.assertEqual(self.c_scale['submediant'], 'A')
@@ -45,3 +49,12 @@ class TestScale(unittest.TestCase):
     def test_raises_invalidquality(self):
         with self.assertRaises(InvalidQualityError):
             z = Scale('A Badqual')
+
+    def test_get_relative_minor(self):
+        a_minor = self.c_scale.get_relative()
+        self.assertEqual(a_minor.notes, ('A', 'B', 'C', 'D', 'E', 'F', 'G'))
+
+    def test_get_relative_major(self):
+        f_major = self.d_harm_minor.get_relative()
+        self.assertEqual(f_major.notes, ('F', 'G', 'A', 'Bb', 'C', 'D', 'E'))
+

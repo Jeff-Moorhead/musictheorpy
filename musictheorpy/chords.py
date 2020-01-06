@@ -7,7 +7,6 @@ class Chord(_NoteGroup):
         MAJOR, MINOR, DIMINISHED, and AUGMENTED qualities are triads. Anything with a
         number (e.g. MAJOR 7) produces a four-or-more-note chord.
         """
-        qualified_name = qualified_name.upper()
         super().__init__('CHORD', qualified_name)
 
     def __getitem__(self, element):
