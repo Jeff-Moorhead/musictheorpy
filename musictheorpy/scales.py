@@ -61,6 +61,14 @@ class Scale(_NoteGroup):
         qualified_relative_name = '%s %s' % (relative_tonic, relative_quality)
         return Scale(qualified_relative_name)
 
+    def get_parallel(self):
+        if self.quality == 'MAJOR':
+            parallel_quality = 'NATURAL MINOR'
+        else:
+            parallel_quality = 'MAJOR'
+        qualified_parallel_name = '%s %s' % (self.root, parallel_quality)
+        return Scale(qualified_parallel_name)
+
     def _validate_root(self, unpacked_name):
         if 'MINOR' in unpacked_name['QUALITY']:
             valid_tonics = Scale._VALID_SCALE_NAMES['MINOR']

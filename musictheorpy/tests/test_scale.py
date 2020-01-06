@@ -58,3 +58,11 @@ class TestScale(unittest.TestCase):
         f_major = self.d_harm_minor.get_relative()
         self.assertEqual(f_major.notes, ('F', 'G', 'A', 'Bb', 'C', 'D', 'E'))
 
+    def test_get_parallel_minor(self):
+        c_minor = self.c_scale.get_parallel()
+        self.assertEqual(c_minor.notes, ('C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'))
+
+    def test_get_parallel_major(self):
+        d_major = self.d_harm_minor.get_parallel()
+        self.assertEqual(d_major.notes, ('D', 'E', 'F#', 'G', 'A', 'B', 'C#'))
+
