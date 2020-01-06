@@ -143,7 +143,29 @@ True
 
 In addition, you can access all the notes in the scale through the
 object's notes attribute, which provides a tuple of strings representing
-all the notes in the scale. Finally, Scale objects implement the 
+all the notes in the scale. 
+
+Scale objects expose two public methods, `get_relative` and `get_parallel`.
+These methods to not take any arguments and both return a Scale object representing
+the relative major or minor scale, or the parallel major or minor scale respectively
+based on the current scale's tonic and quality. Relative and parallel minor scales are always natural
+minor. For example, the relative minor of F major is D natural minor:
+```
+>>> f = Scale('F Major')
+>>> d_min = f.get_relative()
+>>> d_min.notes
+('D', 'E', 'F', 'G', 'A', 'Bb', 'C')
+```
+
+Similarly, the parallel minor of C major is C minor:
+```
+>>> c = Scale('C major')
+>>> c_min = c.get_paralle()
+>>> c_min.notes
+('C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb')
+```
+
+Scale objects implement the 
 `__getitem__` and `__contains__` magic methods. The `__getitem__` method
 allows lookup of notes in a scale by degree name. Valid degree names are
 tonic, supertonic, mediant, subdominant, dominant, submediant, and 
