@@ -146,8 +146,8 @@ object's notes attribute, which provides a tuple of strings representing
 all the notes in the scale. 
 
 Scale objects expose two public methods, `get_relative` and `get_parallel`.
-These methods to not take any arguments and both return a Scale object representing
-the relative major or minor scale, or the parallel major or minor scale respectively
+These methods do not take any arguments and both return a Scale object representing
+the relative/parallel major or minor scale
 based on the current scale's tonic and quality. Relative and parallel minor scales are always natural
 minor. For example, the relative minor of F major is D natural minor:
 ```
@@ -157,7 +157,7 @@ minor. For example, the relative minor of F major is D natural minor:
 ('D', 'E', 'F', 'G', 'A', 'Bb', 'C')
 ```
 
-Similarly, the parallel minor of C major is C minor:
+Similarly, the parallel minor of C major is C natural minor:
 ```
 >>> c = Scale('C major')
 >>> c_min = c.get_paralle()
