@@ -1,5 +1,4 @@
-from .interval_utils import InvalidIntervalError
-from .notegroups import _IntervalBuilder
+from .interval_utils import _IntervalBuilder
 
 VALID_NOTES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 VALID_QUALIFIERS = ['', '#', '##', 'b', 'bb']

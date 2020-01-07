@@ -145,6 +145,60 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
                        }
 
 
+class _IntervalBuilder:
+    def __init__(self, rootnote, intervalgroup=None):
+        self.intervalgroup = intervalgroup
+        self.rootnote = rootnote
+        self.interval_steps = {'PERFECT 0': 0, 'DIMINISHED 2': 100, 'DIMINISHED 9': 100,
+                               'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1, 'AUGMENTED 8': 101,
+                               'MAJOR 2': 2, 'DIMINISHED 3': 102, 'MAJOR 9': 2, 'DIMINISHED 10': 102,
+                               'MINOR 3': 3, 'AUGMENTED 2': 103, 'MINOR 10': 3, 'AUGMENTED 9': 103,
+                               'MAJOR 3': 4, 'DIMINISHED 4': 104, 'MAJOR 10': 4, 'DIMINISHED 11': 104,
+                               'PERFECT 4': 5, 'AUGMENTED 3': 105, 'PERFECT 11': 5, 'AUGMENTED 10': 105,
+                               'DIMINISHED 5': 6, 'AUGMENTED 4': 106, 'DIMINISHED 12': 6, 'AUGMENTED 11': 106,
+                               'PERFECT 5': 7, 'DIMINISHED 6': 107, 'PERFECT 12': 7, 'DIMINISHED 13': 107,
+                               'MINOR 6': 8, 'AUGMENTED 5': 108, 'MINOR 13': 8, 'AUGMENTED 12': 108,
+                               'MAJOR 6': 9, 'DIMINISHED 7': 109, 'MAJOR 13': 9, 'DIMINISHED 14': 109,
+                               'MINOR 7': 10, 'AUGMENTED 6': 110, 'MINOR 14': 10, 'AUGMENTED 13': 110,
+                               'MAJOR 7': 11, 'DIMINISHED 8': 111, 'MAJOR 14': 11, 'DIMINISHED 15': 111,
+                               'PERFECT 8': 12, 'AUGMENTED 7': 112, 'PERFECT 15': 0, 'AUGMENTED 14': 109,
+                               'AUGMENTED 15': 101
+                               }
+
+    def ascend_interval_from_name(self, qualified_interval_name):
+        try:
+            qualified_interval_name = qualified_interval_name.upper()
+            number_of_steps = self.interval_steps[qualified_interval_name]
+        except KeyError:
+            raise InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
+
+        interval_top_note = INTERVAL_NOTE_PAIRS[self.rootnote][number_of_steps]
+        return interval_top_note
+
+    def descend_interval_from_name(self, qualified_interval_name):
+        try:
+            qualified_interval_name = qualified_interval_name.upper()
+            number_of_steps = self.interval_steps[qualified_interval_name]
+        except KeyError:
+            raise InvalidIntervalError("Invalid interval name: %s" % qualified_interval_name) from None
+        interval_bottom_note = _fetch_interval_bottom_note(self.rootnote, number_of_steps)
+        return interval_bottom_note
+
+
+def _fetch_interval_bottom_note(qualified_note_name, steps):
+    if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
+        if steps % 10 == 6:  # augmented 4 is encoded as 106. Its compliment is a diminished 5, or six steps.
+            steps_compliment = 6
+        else:
+            steps_compliment = 12 - (steps % 100) + 100
+    else:
+        if steps == 6:  # diminished 5 compliment is an augmented 4, which is encoded as 106.
+            steps_compliment = 106
+        else:
+            steps_compliment = 12 - steps
+    return INTERVAL_NOTE_PAIRS[qualified_note_name][steps_compliment]
+
+
 class InvalidIntervalError(Exception):
     """
     Raised when an interval would result in an invalid top (ascending) or bottom (descending) note, e.g. a diminished

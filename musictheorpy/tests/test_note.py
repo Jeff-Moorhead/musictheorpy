@@ -1,7 +1,6 @@
 import unittest
-from ..notes import Note, NoteNameError, InvalidIntervalError
-from ..interval_utils import INTERVAL_NOTE_PAIRS
-from ..notegroups import _IntervalBuilder
+from ..notes import Note, NoteNameError
+from ..interval_utils import INTERVAL_NOTE_PAIRS, _IntervalBuilder, InvalidIntervalError
 
 
 class TestNote(unittest.TestCase):
