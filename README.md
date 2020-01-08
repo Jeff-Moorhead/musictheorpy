@@ -1,5 +1,4 @@
 # Musictheorpy
-
 Musictheorpy is a Python library to perform musical calculations,
 including intervals, triads/chords, and scales.
 
@@ -21,6 +20,7 @@ how I can best contact you to continue the discussion. I only ask that you be pa
 and life, it may take me a few days to respond.  
 
 Happy coding!
+
 
 
 API Reference
