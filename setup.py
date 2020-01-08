@@ -2,7 +2,7 @@ import setuptools
 from os import path
 
 this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as readme:
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as readme:
     long_description = readme.read()
 
 setuptools.setup(
@@ -12,7 +12,7 @@ setuptools.setup(
     author_email="jeff.moorhead1@gmail.com",
     description="A music theory library for Python",
     long_description=long_description,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     url="https://github.com/Jeff-Moorhead/musictheorpy",
     packages=setuptools.find_packages(),
     classifiers=[
