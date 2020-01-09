@@ -63,6 +63,18 @@ class Note:
             raise NoteNameError("Descending a %s from %s results in an invalid note." % (qualified_interval_name,
                                                                                          self._qualified_name)) from None
 
+    def find_interval_from_root(self, top_note):
+        """
+        :param Note root_note: a name qualified note
+        :param Note top_note: a name qualified note
+        :return str interval: the interval at which the top note is in relation from the root
+        """
+        root_note = self.qualified_name
+        top_note = Note(top_note).qualified_name.upper()
+
+        return self._interval_builder.find_interval_from_root(root_note, top_note)
+
+
 
 class NoteNameError(Exception):
     """
