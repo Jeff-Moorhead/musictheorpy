@@ -29,4 +29,7 @@ class Chord(_NoteGroup):
 
 
 class InvalidBassError(Exception):
+    """
+    Raised when attempting to create a Chord object with an invalid bass note.
+    """
     pass

@@ -248,4 +248,49 @@ If an invalid degree is passed, an InvalidDegreeError is raised::
 Reference
 +++++++++
 
-.. TODO complete API reference including private methods and functions
+Notes
+-----
+
+.. py:data:: VALID_NOTES
+
+   Valid note names, not including qualifiers
+
+.. py:data:: VALID_QUALIFIERS
+
+   Valid note qualifiers
+
+.. py:data:: VALID_QUALIFIED_NAMES
+
+   Valid note names, including qualifiers
+
+.. autoclass:: musictheorpy.notes.Note
+   :members:
+   :private-member:
+
+.. TODO attributes and special methods
+
+.. autoexception:: musictheorpy.notes.NoteNameError
+
+
+Scales
+------
+
+.. py:autoclass:: musictheorpy.scales.Scale
+   :members:
+   :private-members:
+
+.. TODO inherited methods?
+
+.. py:autoexception:: musictheorpy.scales.InvalidTonicError
+
+
+Chords
+------
+
+.. py:autoclass:: musictheorpy.chords.Chord
+   :members:
+   :private-members:
+
+.. TODO inherited methods?
+
+.. py:autoexception:: musictheorpy.chords.InvalidBassError

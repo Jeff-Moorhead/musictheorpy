@@ -43,7 +43,7 @@ class Note:
         """
         :param str qualified_interval_name: The interval to ascend, e.g. major 3.
         :return: A Note object representing the top note of the interval. If the top note of the interval is not
-        a valid note, such as F###, and InvalidIntervalError is raised.
+            a valid note, such as F###, and InvalidIntervalError is raised.
         """
         try:
             return Note(self._interval_builder.ascend_interval_from_name(qualified_interval_name))
@@ -55,7 +55,7 @@ class Note:
         """
         :param qualified_interval_name: the interval to fetch, e.g. major 3.
         :return: a Note object representing the bottom note of the interval. If the bottom note of the interval is not
-        a valid note, such as F###, an InvalidInvervalError is raised.
+            a valid note, such as F###, an InvalidInvervalError is raised.
         """
         try:
             return Note(self._interval_builder.descend_interval_from_name(qualified_interval_name))
