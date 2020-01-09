@@ -65,4 +65,3 @@ class TestScale(unittest.TestCase):
     def test_get_parallel_major(self):
         d_major = self.d_harm_minor.get_parallel()
         self.assertEqual(d_major.notes, ('D', 'E', 'F#', 'G', 'A', 'B', 'C#'))
-
