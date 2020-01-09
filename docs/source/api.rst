@@ -13,6 +13,7 @@ All of the classes below can be accessed directly from within the musictheorpy n
    >>> import musictheorpy
    >>> note = musictheorpy.Note('A')
 
+
 Notes
 -----
 
@@ -27,48 +28,6 @@ For example, `Note('A')`, `Note('C#')`, and `Note('Gb')` are all valid, while
 uppercase, but qualifiers must be lowercase (e.g. `Note('ab')` is valid, but `Note('aB')` is not).
 If you attempt to create a Note object with an invalid qualified note name, a NoteNameError is raised.
 
-Note objects expose the following public methods:
-
-.. py:method:: ascend_interval(qualified_interval)
-.. py:method:: descend_interval(qualified_interval)
-
-Both ascend_interval and descend_interval accept a string representing a
-qualified interval name. Qualified interval names are comprised of
-a quality followed by an interval number. Valid qualities
-are major, minor, perfect, augmented, and diminished. Valid interval numbers
-are 0 - 15. Standard music theory nomenclature applies, i.e. fourths,
-fifths, unisons, octaves, elevenths, twelfths, and fifteenths can only be
-perfect, diminished, or augmented, while all other intervals can only be
-major, minor, diminished, or augmented.
-
-Both methods return a Note object representing the note at
-the other end of the given interval. For example, ::
-
-   >>> c = Note('C')
-   >>> a = c.ascend_interval('major 6')
-   >>> a.qualified_name
-   'A'
-   >>>
-
-In this example, we start with C, and ascend a major sixth, which is an A.
-
-descend_interval is functionally identical, except that it descends the given
-interval. For example, ::
-
-   >>> c = Note('C')
-   >>> a = c.descend_interval('minor 3')
-   >>> a.qualified_name
-   'A'
-   >>>
-
-In some cases, an interval name may be perfectly valid, but the note on the other
-side of the interval is not a valid note. This is particularly common in flat and sharp
-notes. For example, ascending an augmented third (``augmented 3``) from A# would
-technically result in a C###, which is not considered valid. In this case, a NoteNameError
-is raised to inform the client that the given interval is not valid for the starting note.
-
-If the qualified interval name passed to either method is itself invalid, for example, major 5,
-then an InvalidIntervalException is raised.
 
 Scales
 ------
@@ -126,27 +85,6 @@ In addition, you can access all the notes in the scale through the
 object's ``notes`` attribute, which provides a tuple of strings representing
 all the notes in the scale.
 
-Scale objects expose two public methods::
-
-.. py:method:: get_relative()
-.. py:method:: get_parallel()
-
-These methods both return a Scale object representing the relative/parallel major or minor scale
-based on the current scale's tonic and quality. Relative and parallel minor scales are always natural
-minor. For example, the relative minor of F major is D natural minor::
-
-   >>> f = Scale('F Major')
-   >>> d_min = f.get_relative()
-   >>> d_min.notes
-   ('D', 'E', 'F', 'G', 'A', 'Bb', 'C')
-
-Similarly, the parallel minor of C major is C natural minor::
-
-   >>> c = Scale('C major')
-   >>> c_min = c.get_paralle()
-   >>> c_min.notes
-   ('C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb')
-
 Scale objects implement the ``__getitem__`` and ``__contains__`` magic methods. ``__getitem__``
 allows you to lookup notes in a scale by degree name. Valid degree names are
 tonic, supertonic, mediant, subdominant, dominant, submediant, and leading tone. For example, ::
@@ -180,8 +118,8 @@ extensions can be dominant, major, or minor, e.g. dominant 7, major 9, minor 13.
 In addition, extensions 9, 11, and 13 can be modified with a flat (b)
 or sharp (#) for dominant chords, e.g. dominant #9, dominant b13.
 
-If an invalid bass note is passed, an InvalidBassError is raised. Similarly,
-if an invalid chord quality is passed, an InvalidQualityError is raised. For
+If an invalid bass note is specified, an InvalidBassError is raised. Similarly,
+if an invalid chord quality is specified, an InvalidQualityError is raised. For
 example, ::
 
    >>> c = Chord('C major')
@@ -265,9 +203,8 @@ Notes
 
 .. autoclass:: musictheorpy.notes.Note
    :members:
-   :private-member:
-
-.. TODO attributes and special methods
+   :private-members:
+   :special-members:
 
 .. autoexception:: musictheorpy.notes.NoteNameError
 
@@ -277,9 +214,9 @@ Scales
 
 .. py:autoclass:: musictheorpy.scales.Scale
    :members:
+   :inherited-members:
    :private-members:
-
-.. TODO inherited methods?
+   :special-members
 
 .. py:autoexception:: musictheorpy.scales.InvalidTonicError
 
@@ -289,9 +226,9 @@ Chords
 
 .. py:autoclass:: musictheorpy.chords.Chord
    :members:
+   :inherited-members:
    :private-members:
-
-.. TODO inherited methods?
+   :special-members:
 
 .. py:autoexception:: musictheorpy.chords.InvalidBassError
 
