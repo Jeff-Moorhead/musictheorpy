@@ -8,3 +8,4 @@ musictheorpy/tests/__pycache__/*
 *.txt
 dist/
 build/
+!docs/build/
