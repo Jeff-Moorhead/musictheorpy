@@ -1,3 +1,6 @@
+Musictheorpy: A music theory library in Python
+==============================================
+
 Musictheorpy is a Python library to perform musical calculations,
 including intervals, triads/chords, and scales.
 
