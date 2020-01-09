@@ -1,4 +1,5 @@
 from .notegroups import _NoteGroup, InvalidDegreeError
+from .notes import VALID_QUALIFIED_NAMES
 
 
 class Chord(_NoteGroup):
@@ -21,10 +22,7 @@ class Chord(_NoteGroup):
             raise InvalidDegreeError("Invalid degree name: %s" % element) from None
 
     def _validate_root(self, unpacked_name):
-        valid_roots = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-        valid_qualifiers = ['', '#', '##', 'b', 'bb']
-        valid_qualified_roots = [root + qualifier for root in valid_roots for qualifier in valid_qualifiers]
-        if unpacked_name['ROOT'] not in valid_qualified_roots:
+        if unpacked_name['ROOT'] not in VALID_QUALIFIED_NAMES:
             raise InvalidBassError("Invalid bass note: %s" % unpacked_name['ROOT'])
 
 
