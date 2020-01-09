@@ -65,15 +65,16 @@ class Note:
 
     def find_interval_from_root(self, top_note):
         """
-        :param Note root_note: a name qualified note
-        :param Note top_note: a name qualified note
-        :return str interval: the interval at which the top note is in relation from the root
+        :param Note top_note: a qualified note to be compared to the root
+        :return <str> interval: the interval at which the top note is in relation from the root
         """
         root_note = self.qualified_name
-        top_note = Note(top_note).qualified_name.upper()
-
+        try:
+            top_note = Note(top_note).qualified_name.upper()
+        except NoteNameError:
+            raise NoteNameError("%s is an invalid note." % top_note) from None
+        
         return self._interval_builder.find_interval_from_root(root_note, top_note)
-
 
 
 class NoteNameError(Exception):
