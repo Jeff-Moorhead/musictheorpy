@@ -185,7 +185,6 @@ class _IntervalBuilder:
         return interval_bottom_note
 
     def find_interval_from_root(self, root_note, top_note):
-
         int_note_keys = list(INTERVAL_NOTE_PAIRS[root_note].keys())
         int_note_vals = list(INTERVAL_NOTE_PAIRS[root_note].values())
         int_step_keys = list(self.interval_steps.keys())
@@ -193,7 +192,7 @@ class _IntervalBuilder:
         int_note_code = int_note_keys[int_note_vals.index(top_note)]
         interval = int_step_keys[int_step_vals.index(int_note_code)]
 
-        return interval
+        return interval.lower()
 
 
 def _fetch_interval_bottom_note(qualified_note_name, steps):

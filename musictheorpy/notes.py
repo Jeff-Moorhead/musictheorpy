@@ -65,7 +65,8 @@ class Note:
 
     def find_interval_from_root(self, top_note):
         """
-        :param top_note: a string that is
+        :param top_note: a string that is verified as a valid Note and passed to the
+        interval_builder.find_interval_from_root method to find its relation to root note
         :return <str> interval: the interval at which the top note is in relation from the root
         """
         root_note = self.qualified_name
