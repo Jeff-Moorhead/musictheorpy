@@ -294,3 +294,32 @@ Chords
 .. TODO inherited methods?
 
 .. py:autoexception:: musictheorpy.chords.InvalidBassError
+
+
+Note Groups
+-----------
+
+.. py:autoclass:: musictheorpy.notegroups._NoteGroup
+
+.. py:autofunction:: musictheorpy.notegroups._unpack_group_name
+
+.. py:autofunction:: musictheorpy.notegroups._get_group_builder
+
+.. py:autofunction:: musictheorpy.notegroups._build_group
+
+.. py:autoexception:: musictheorpy.notegroups.InvalidDegreeError
+
+.. py:autoexception:: musictheorpy.notegroups.InvalidQualityError
+
+
+Interval Utils
+--------------
+
+.. py:autodata:: musictheorpy.interval_utils.INTERVAL_NOTE_PAIRS
+
+.. py:autoclass:: musictheorpy.interval_utils._IntervalBuilder
+   :members:
+
+.. py:autofunction:: musictheorpy.interval_utils._fetch_interval_bottom_note
+
+.. py:autoexception:: musictheorpy.interval_utils.InvalidIntervalError
