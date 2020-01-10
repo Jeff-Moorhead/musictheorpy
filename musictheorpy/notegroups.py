@@ -3,6 +3,9 @@ from . import interval_utils
 
 
 class _NoteGroup(abc.ABC):
+    """
+    An abstract base class used to define an interface for note groups, such as scales and chords.
+    """
     @abc.abstractmethod
     def __init__(self, grouptype, qualified_name):
         """ Represents a group such as a scale or chord """

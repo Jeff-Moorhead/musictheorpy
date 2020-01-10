@@ -146,8 +146,11 @@ INTERVAL_NOTE_PAIRS = {'A': {0: 'A', 1: 'Bb', 2: 'B', 3: 'C', 4: 'C#', 5: 'D', 6
 
 
 class _IntervalBuilder:
-    def __init__(self, rootnote, intervalgroup=None):
-        self.intervalgroup = intervalgroup
+    """
+    This class can be used as a utility class to facilitate interval calculations. Objects store a root note as a string
+    and builds intervals on that note.
+    """
+    def __init__(self, rootnote):
         self.rootnote = rootnote
         self.interval_steps = {'PERFECT 0': 0, 'DIMINISHED 2': 100, 'DIMINISHED 9': 100,
                                'MINOR 2': 1, 'AUGMENTED 0': 101, 'MINOR 9': 1, 'AUGMENTED 8': 101,
@@ -166,6 +169,12 @@ class _IntervalBuilder:
                                }
 
     def ascend_interval_from_name(self, qualified_interval_name):
+        """
+        Ascend a specified interval from the root note.
+
+        :raises: InvalidIntervalError: Raised if ascending the specified interval from the root would result in an
+            invalid note, such as a triple sharp or triple flat.
+        """
         try:
             qualified_interval_name = qualified_interval_name.upper()
             number_of_steps = self.interval_steps[qualified_interval_name]
@@ -176,6 +185,12 @@ class _IntervalBuilder:
         return interval_top_note
 
     def descend_interval_from_name(self, qualified_interval_name):
+        """
+        Descend a specified interval from the root note.
+
+        :raises: InvalidIntervalError: Raised if descending the specified interval from the root would result in an
+            invalid note, such as a triple sharp or triple flat.
+        """
         try:
             qualified_interval_name = qualified_interval_name.upper()
             number_of_steps = self.interval_steps[qualified_interval_name]

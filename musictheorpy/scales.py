@@ -52,6 +52,10 @@ class Scale(_NoteGroup):
             raise InvalidDegreeError('Invalid degree name: %s' % degree) from None
 
     def get_relative(self):
+        """
+        Returns the relative major or minor of the current scale.
+        :rtype: Scale
+        """
         if self.quality == 'MAJOR':
             relative_quality = 'NATURAL MINOR'
             relative_tonic = self.__getitem__('SUBMEDIANT')
@@ -62,6 +66,10 @@ class Scale(_NoteGroup):
         return Scale(qualified_relative_name)
 
     def get_parallel(self):
+        """
+        Returns the parallel major or minor of the current scale.
+        :rtype: Scale
+        """
         if self.quality == 'MAJOR':
             parallel_quality = 'NATURAL MINOR'
         else:
@@ -70,6 +78,13 @@ class Scale(_NoteGroup):
         return Scale(qualified_parallel_name)
 
     def _validate_root(self, unpacked_name):
+        """
+        Ensures that the tonic of the scale is valid.
+
+        :param list unpacked_name: The qualified name of the scale unpacked into a list.
+        :raises: InvalidTonicError: If the tonic is an invalid note or if the key signature of the
+            scale would contain double sharps or double flats.
+        """
         if 'MINOR' in unpacked_name['QUALITY']:
             valid_tonics = Scale._VALID_SCALE_NAMES['MINOR']
         else:
@@ -83,7 +98,7 @@ class Scale(_NoteGroup):
 
     @classmethod
     def _fetch_key_signature(cls, tonic, quality):
-        # return a list of strings representing the scale's key signature. C major and A minor scales return an empty list.
+        """ Returns a list of strings with the note names that make up the scale's key signature. """
         qualified_tonic = tonic + (' MINOR' if 'MINOR' in quality else ' MAJOR')
         key_signature_number = cls._KEY_SIGNATURE_NUMBERS[qualified_tonic]
         return tuple(cls._KEY_SIGNATURES[key_signature_number])

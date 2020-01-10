@@ -2,7 +2,6 @@
 Musictheorpy API Reference
 ==========================
 
-# Musictheorpy
 Musictheorpy is a Python library to perform musical calculations, including intervals, triads/chords, and scales.
 
 Quickstart
@@ -204,7 +203,6 @@ Notes
 .. autoclass:: musictheorpy.notes.Note
    :members:
    :private-members:
-   :special-members:
 
 .. autoexception:: musictheorpy.notes.NoteNameError
 
@@ -212,51 +210,46 @@ Notes
 Scales
 ------
 
-.. py:autoclass:: musictheorpy.scales.Scale
+.. autoclass:: musictheorpy.scales.Scale
    :members:
    :inherited-members:
    :private-members:
-   :special-members
 
-.. py:autoexception:: musictheorpy.scales.InvalidTonicError
+.. autoexception:: musictheorpy.scales.InvalidTonicError
 
 
 Chords
 ------
 
-.. py:autoclass:: musictheorpy.chords.Chord
+.. autoclass:: musictheorpy.chords.Chord
    :members:
    :inherited-members:
    :private-members:
-   :special-members:
 
-.. py:autoexception:: musictheorpy.chords.InvalidBassError
+.. autoexception:: musictheorpy.chords.InvalidBassError
 
 
 Note Groups
 -----------
 
-.. py:autoclass:: musictheorpy.notegroups._NoteGroup
+.. autoclass:: musictheorpy.notegroups._NoteGroup
 
-.. py:autofunction:: musictheorpy.notegroups._unpack_group_name
+.. autoexception:: musictheorpy.notegroups.InvalidDegreeError
 
-.. py:autofunction:: musictheorpy.notegroups._get_group_builder
-
-.. py:autofunction:: musictheorpy.notegroups._build_group
-
-.. py:autoexception:: musictheorpy.notegroups.InvalidDegreeError
-
-.. py:autoexception:: musictheorpy.notegroups.InvalidQualityError
+.. autoexception:: musictheorpy.notegroups.InvalidQualityError
 
 
 Interval Utils
 --------------
 
-.. py:autodata:: musictheorpy.interval_utils.INTERVAL_NOTE_PAIRS
+.. py:data:: musictheorpy.interval_utils.INTERVAL_NOTE_PAIRS
 
-.. py:autoclass:: musictheorpy.interval_utils._IntervalBuilder
+   A dictionary giving note names corresponding to intervals. The keys in the dictionary
+   are starting notes. Each dictionary element has a dictionary as its value. The keys of the inner
+   dictionaries are the interval code corresponding to a qualified interval name. The values of the inner
+   dictionaries are the top note of the interval.
+
+.. autoclass:: musictheorpy.interval_utils._IntervalBuilder
    :members:
 
-.. py:autofunction:: musictheorpy.interval_utils._fetch_interval_bottom_note
-
-.. py:autoexception:: musictheorpy.interval_utils.InvalidIntervalError
+.. autoexception:: musictheorpy.interval_utils.InvalidIntervalError
