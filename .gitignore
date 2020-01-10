@@ -4,6 +4,10 @@ musictheorpy/__pycache__/*
 musictheorpy/console/__pycache__/*
 musictheorpy/console/tests/__pycache__/*
 musictheorpy/tests/__pycache__/*
+pyvenv.cfg
+bin/
+lib/
+venv/
 *.egg-info
 *.txt
 dist/
