@@ -172,7 +172,7 @@ class _IntervalBuilder:
         """
         Ascend a specified interval from the root note.
 
-        :raises: InvalidIntervalError: Raised if ascending the specified interval from the root would result in an
+        :raises: InvalidIntervalError: If ascending the specified interval from the root would result in an
             invalid note, such as a triple sharp or triple flat.
         """
         try:
@@ -188,7 +188,7 @@ class _IntervalBuilder:
         """
         Descend a specified interval from the root note.
 
-        :raises: InvalidIntervalError: Raised if descending the specified interval from the root would result in an
+        :raises: InvalidIntervalError: If descending the specified interval from the root would result in an
             invalid note, such as a triple sharp or triple flat.
         """
         try:

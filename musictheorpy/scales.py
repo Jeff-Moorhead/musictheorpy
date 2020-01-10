@@ -54,6 +54,7 @@ class Scale(_NoteGroup):
     def get_relative(self):
         """
         Returns the relative major or minor of the current scale.
+
         :rtype: Scale
         """
         if self.quality == 'MAJOR':
@@ -68,6 +69,7 @@ class Scale(_NoteGroup):
     def get_parallel(self):
         """
         Returns the parallel major or minor of the current scale.
+
         :rtype: Scale
         """
         if self.quality == 'MAJOR':

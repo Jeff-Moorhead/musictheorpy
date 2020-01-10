@@ -190,15 +190,15 @@ Notes
 
 .. py:data:: VALID_NOTES
 
-   Valid note names, not including qualifiers
+   Valid note names, not including qualifiers.
 
 .. py:data:: VALID_QUALIFIERS
 
-   Valid note qualifiers
+   Valid note qualifiers.
 
 .. py:data:: VALID_QUALIFIED_NAMES
 
-   Valid note names, including qualifiers
+   Valid note names, including qualifiers.
 
 .. autoclass:: musictheorpy.notes.Note
    :members:
