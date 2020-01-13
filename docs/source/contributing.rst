@@ -16,10 +16,15 @@ The first step to contributing code to Musictheorpy is to fork the repository on
 so you can make your changes. See `git-scm <https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project>`_ for more information
 on contributing to projects on Github.
 
-You will need to install Nose to run the unit tests. If you have Nose already installed globally, you can run ``nosetests``
-from the project root directory to make sure all the tests pass initially. If you do not have Nose, you can create a
-virtual environment and install Nose with ``pip install nose``. See the `Python docs <https://docs.python.org/3/library/venv.html>`_
-for more information about virtual environments.
+You can run the unit tests using either Python's built in :file:`unittest` module, or by installing :file:`Nose`, and running ``nosetests`` from the project root::
+
+   # from the project root directory
+   >>> python -m unittest discover
+   
+   # or, using Nose...
+   >>> nosetests
+
+If you do not have Nose, you can create a virtual environment and install Nose with ``pip install nose``. See the `Python docs <https://docs.python.org/3/library/venv.html>`_ for more information about virtual environments.
 
 All changes are required to have accompanying unit tests. Untested changes will be rejected. Further, any new classes, methods,
 or functions are required to contain a docstring describing the new functionality and any parameters present in the signature.
