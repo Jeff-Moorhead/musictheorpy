@@ -31,6 +31,9 @@ class TestNote(unittest.TestCase):
         with self.assertRaises(InvalidIntervalError):
             self.a_flat.ascend_interval('bad interval')
 
+    def test_valid_top_bottom_interval(self):
+        self.assertEqual(self.a.find_interval_from_root('C#'), "major 3")
+
 
 if __name__ == '__main__':
     unittest.main()
