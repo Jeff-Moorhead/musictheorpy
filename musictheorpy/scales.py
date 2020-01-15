@@ -81,6 +81,13 @@ class Scale(_NoteGroup):
         return Scale(qualified_parallel_name)
 
     def get_triad_for_degree(self, degree):
+        """
+        Builds a triad based on the current scale's quality and the given degree.
+
+        :param degree: a string representing the scale degree, such as TONIC, MEDIANT.
+        :raises: InvalidDegreeError
+        :return: a Chord object with the scale degree as its root.
+        """
         degree = degree.upper()
         if self.quality == 'MAJOR':
             triad_qualities = {'TONIC': 'MAJOR', 'SUPERTONIC': 'MINOR', 'MEDIANT': 'MINOR', 'SUBDOMINANT': 'MAJOR',
