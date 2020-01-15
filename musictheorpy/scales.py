@@ -1,4 +1,5 @@
 from .notegroups import _NoteGroup, InvalidDegreeError
+from .chords import Chord
 
 
 class Scale(_NoteGroup):
@@ -42,7 +43,7 @@ class Scale(_NoteGroup):
         :return: a Note object representing the scale degree.
         """
         degree_names = {'TONIC': 0, 'SUPERTONIC': 1, 'MEDIANT': 2, 'SUBDOMINANT': 3,
-                        'DOMINANT': 4, 'SUBMEDIANT': 5, 'LEADING TONE': 6}
+                        'DOMINANT': 4, 'SUBMEDIANT': 5, 'SEVENTH': 6, 'LEADING TONE': 6}
 
         try:
             degree = degree.upper()
@@ -78,6 +79,28 @@ class Scale(_NoteGroup):
             parallel_quality = 'MAJOR'
         qualified_parallel_name = '%s %s' % (self.root, parallel_quality)
         return Scale(qualified_parallel_name)
+
+    def get_triad_for_degree(self, degree):
+        degree = degree.upper()
+        if self.quality == 'MAJOR':
+            triad_qualities = {'TONIC': 'MAJOR', 'SUPERTONIC': 'MINOR', 'MEDIANT': 'MINOR', 'SUBDOMINANT': 'MAJOR',
+                               'DOMINANT': 'MAJOR', 'SUBMEDIANT': 'MINOR', 'SEVENTH': 'DIMINISHED', 'LEADING TONE': 'DIMINISHED'}
+        elif self.quality == 'NATURAL MINOR':
+            triad_qualities = {'TONIC': 'MINOR', 'SUPERTONIC': 'DIMINISHED', 'MEDIANT': 'MAJOR', 'SUBDOMINANT': 'MINOR',
+                               'DOMINANT': 'MINOR', 'SUBMEDIANT': 'MAJOR', 'SEVENTH': 'MAJOR', 'LEADING TONE': 'MAJOR'}
+        elif self.quality == 'HARMONIC MINOR':
+            triad_qualities = {'TONIC': 'MINOR', 'SUPERTONIC': 'DIMINISHED', 'MEDIANT': 'AUGMENTED',
+                               'SUBDOMINANT': 'MINOR', 'DOMINANT': 'MAJOR', 'SUBMEDIANT': 'MAJOR', 'SEVENTH': 'DIMINISHED',
+                               'LEADING TONE': 'DIMINISHED'}
+        else:
+            triad_qualities = {'TONIC': 'MINOR', 'SUPERTONIC': 'MINOR', 'MEDIANT': 'AUGMENTED', 'SUBDOMINANT': 'MAJOR',
+                               'DOMINANT': 'MAJOR', 'SUBMEDIANT': 'DIMINISHED', 'SEVENTH': 'DIMINISHED',
+                               'LEADING TONE': 'DIMINISHED'}
+
+        triad_root = self.__getitem__(degree)  # Raises InvalidDegreeError
+        triad_quality = triad_qualities[degree]
+        triad_name = "%s %s" % (triad_root, triad_quality)
+        return Chord(triad_name)
 
     def _validate_root(self, unpacked_name):
         """

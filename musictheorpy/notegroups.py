@@ -29,6 +29,9 @@ class _NoteGroup(abc.ABC):
     def __repr__(self):
         return str(self.notes)
 
+    def __eq__(self, other):
+        return self.notes == other.notes
+
     @abc.abstractmethod
     def __getitem__(self, item):
         pass

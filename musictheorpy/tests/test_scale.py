@@ -1,6 +1,7 @@
 import unittest
 from ..scales import Scale, InvalidTonicError
 from ..notegroups import InvalidQualityError, InvalidDegreeError
+from ..chords import Chord
 
 
 class TestScale(unittest.TestCase):
@@ -65,3 +66,12 @@ class TestScale(unittest.TestCase):
     def test_get_parallel_major(self):
         d_major = self.d_harm_minor.get_parallel()
         self.assertEqual(d_major.notes, ('D', 'E', 'F#', 'G', 'A', 'B', 'C#'))
+
+    def test_get_triad_for_degree(self):
+        e_minor = self.c_scale.get_triad_for_degree('mediant')
+        to_compare = Chord('E minor')
+        self.assertEqual(e_minor, to_compare)
+
+    def test_get_triad_raises(self):
+        with self.assertRaises(InvalidDegreeError):
+            bad = self.c_scale.get_triad_for_degree('foo')
