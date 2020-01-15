@@ -24,4 +24,4 @@ contributing to the project, please see the Contributing page in the docs. Even 
 I am always open to hearing people's ideas, so if you have a thought on how the project can improve, please
 feel free to send me an email at jeff.moorhead1@gmail.com with your name, thoughts on improving the library, and 
 how I can best contact you to continue the discussion. I only ask that you be patient, as between work, graduate school,
-and life, it may take me a few days to respond. Read more on contributing in `the docs <https://musictheorpy.readthedocs.io/en/latest/contributing.html>`_.
+and life, it may take me a few days to respond. Read more on contributing in `the full documentation <https://musictheorpy.readthedocs.io/en/latest/contributing.html>`_.
