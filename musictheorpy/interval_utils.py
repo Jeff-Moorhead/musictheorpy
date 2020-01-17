@@ -200,6 +200,11 @@ class _IntervalBuilder:
         return interval_bottom_note
 
     def get_interval_name(self, root_note, top_note):
+        """
+        :param str root_note: the bottom note of the interval.
+        :param str top_note: the top note of the interval.
+        :return: the name of the interval between the bottom and top notes.
+        """
         int_note_keys = list(INTERVAL_NOTE_PAIRS[root_note].keys())
         int_note_vals = list(INTERVAL_NOTE_PAIRS[root_note].values())
         int_step_keys = list(self.interval_steps.keys())

@@ -65,9 +65,10 @@ class Note:
 
     def get_interval_name(self, top_note):
         """
-        :param top_note: a string that is verified as a valid Note and passed to the
-        interval_builder.find_interval_from_root method to find its relation to root note
-        :return <str> interval: the interval at which the top note is in relation from the root
+        Gives the name of the interval between the current note and ``top_note``. Note that the current note is
+        always treated as the bottom note in the interval.
+
+        :param str top_note: the qualified name of the top note of the interval.
         """
         try:
             return self._interval_builder.get_interval_name(self.qualified_name, top_note)
