@@ -199,6 +199,16 @@ class _IntervalBuilder:
         interval_bottom_note = _fetch_interval_bottom_note(self.rootnote, number_of_steps)
         return interval_bottom_note
 
+    def get_interval_name(self, root_note, top_note):
+        int_note_keys = list(INTERVAL_NOTE_PAIRS[root_note].keys())
+        int_note_vals = list(INTERVAL_NOTE_PAIRS[root_note].values())
+        int_step_keys = list(self.interval_steps.keys())
+        int_step_vals = list(self.interval_steps.values())
+        int_note_code = int_note_keys[int_note_vals.index(top_note)]
+        interval = int_step_keys[int_step_vals.index(int_note_code)]
+
+        return interval.lower()
+
 
 def _fetch_interval_bottom_note(qualified_note_name, steps):
     if steps >= 100:  # Most diminished and augmented intervals, except for diminished 5, have an interval code over 100
