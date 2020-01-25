@@ -40,6 +40,10 @@ class _NoteGroup(abc.ABC):
         note = note[0].upper() + note[1:]
         return note in self.notes
 
+    @abc.abstractmethod
+    def get_degree_from_note_name(self, qualified_note_name):
+        pass
+
 
 def _unpack_group_name(groupname):
     split_group = groupname.split(' ', 1)

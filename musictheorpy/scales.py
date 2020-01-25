@@ -109,6 +109,9 @@ class Scale(_NoteGroup):
         triad_name = "%s %s" % (triad_root, triad_quality)
         return Chord(triad_name)
 
+    def get_degree_from_note_name(self, qualified_note_name):
+        pass
+
     def _validate_root(self, unpacked_name):
         """
         Ensures that the tonic of the scale is valid.

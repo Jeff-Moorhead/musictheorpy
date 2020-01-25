@@ -26,6 +26,9 @@ class Chord(_NoteGroup):
         except KeyError:
             raise InvalidDegreeError("Invalid degree name: %s" % element) from None
 
+    def get_degree_from_note_name(self, qualified_note_name):
+        pass
+
     def _validate_root(self, unpacked_name):
         """
         Ensures that the bass of the chord is valid.
